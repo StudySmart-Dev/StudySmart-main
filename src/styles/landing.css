@@ -1,0 +1,418 @@
+.ls-page {
+  min-height: 100vh;
+}
+
+.ls-topNav {
+  width: 100%;
+  padding: 24px 28px 10px;
+}
+
+.ls-topNavInner {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.ls-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 44px;
+}
+
+.ls-menu {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  gap: 64px;
+  font-size: 15px;
+}
+
+.ls-menuLink {
+  color: var(--text);
+  opacity: 0.95;
+}
+
+.ls-topCtas {
+  width: 160px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ls-ctaBtn {
+  border: 0;
+  background: #0b0b0f;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.ls-main {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 10px 28px 52px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.ls-pill {
+  background: var(--pill);
+  color: #0b0b0f;
+  border: 1px solid rgba(11, 11, 15, 0.08);
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 13px;
+  line-height: 1.2;
+  margin-top: 10px;
+}
+
+.ls-title {
+  font-size: 56px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-align: center;
+  font-weight: 800;
+}
+
+.ls-trustRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 4px;
+}
+
+.ls-avatarsWrap {
+  display: flex;
+  position: relative;
+  width: 84px;
+  height: 36px;
+  margin-left: 8px;
+}
+
+.ls-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  position: absolute;
+  top: 0;
+  border: 2px solid #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+.ls-avatar:nth-child(1) {
+  left: 0;
+}
+.ls-avatar:nth-child(2) {
+  left: 26px;
+}
+.ls-avatar:nth-child(3) {
+  left: 52px;
+}
+
+.ls-trustText {
+  font-size: 13px;
+  color: #101015;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.ls-previewWrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.ls-videoRow {
+  width: 100%;
+  max-width: 960px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ls-videoTitle {
+  margin: 0;
+  text-align: left;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.ls-videoPlaceholder {
+  width: 100%;
+  border-radius: 22px;
+  background: linear-gradient(
+    135deg,
+    rgba(11, 11, 15, 0.06),
+    rgba(11, 11, 15, 0.02)
+  );
+  border: 1px solid rgba(17, 17, 26, 0.08);
+  padding: 46px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.ls-videoPlaceholder::before {
+  content: '';
+  position: absolute;
+  inset: -60px;
+  background: radial-gradient(circle at 30% 30%, rgba(190, 227, 255, 0.65), transparent 55%),
+    radial-gradient(circle at 70% 20%, rgba(255, 107, 203, 0.35), transparent 55%),
+    radial-gradient(circle at 80% 70%, rgba(45, 212, 191, 0.35), transparent 55%);
+  opacity: 0.7;
+}
+
+.ls-playBadge {
+  position: relative;
+  width: 74px;
+  height: 74px;
+  border-radius: 999px;
+  background: rgba(11, 11, 15, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+}
+
+.ls-playTri {
+  width: 0;
+  height: 0;
+  border-top: 11px solid transparent;
+  border-bottom: 11px solid transparent;
+  border-left: 18px solid #fff;
+  margin-left: 4px;
+}
+
+.ls-previewCard {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  min-height: 520px;
+  border-radius: 28px;
+  border: 1px solid rgba(17, 17, 26, 0.08);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 1));
+  overflow: hidden;
+  display: flex;
+  padding: 0;
+}
+
+.ls-sidebar {
+  width: 240px;
+  padding: 18px 14px;
+  border-right: 1px solid rgba(17, 17, 26, 0.06);
+  background: #fbfbff;
+}
+
+.ls-sidebarBrand {
+  display: flex;
+  align-items: center;
+  padding: 8px 8px 14px;
+}
+
+.ls-sidebarBrandBadge {
+  font-weight: 800;
+  font-size: 14px;
+  border: 1px solid rgba(11, 11, 15, 0.12);
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.ls-sideList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.ls-sideItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 13px;
+  color: rgba(11, 11, 15, 0.8);
+}
+
+.ls-sideItem.isActive {
+  background: rgba(212, 231, 255, 0.6);
+  color: rgba(11, 11, 15, 0.95);
+  border: 1px solid rgba(11, 11, 15, 0.08);
+}
+
+.ls-sideDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(11, 11, 15, 0.16);
+}
+.ls-sideItem.isActive .ls-sideDot {
+  background: rgba(11, 11, 15, 0.55);
+}
+
+.ls-mainPanel {
+  flex: 1;
+  padding: 26px 28px;
+  position: relative;
+}
+
+.ls-panelTop {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.ls-panelTitleBox {
+  width: 100%;
+  max-width: 650px;
+  background: rgba(251, 251, 255, 0.7);
+  border: 1px solid rgba(17, 17, 26, 0.08);
+  border-radius: 14px;
+  padding: 14px 16px;
+  position: relative;
+}
+
+.ls-panelIcon {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(11, 11, 15, 0.06);
+  border: 1px solid rgba(11, 11, 15, 0.08);
+  position: absolute;
+  left: 14px;
+  top: 18px;
+}
+
+.ls-panelText {
+  margin: 0;
+  padding-left: 26px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: rgba(11, 11, 15, 0.74);
+}
+
+.ls-panelBody {
+  margin-top: 22px;
+}
+
+.ls-weekHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.ls-weekTitle {
+  margin: 0;
+  font-size: 18px;
+}
+
+.ls-filterBtn {
+  border: 1px solid rgba(17, 17, 26, 0.08);
+  background: rgba(255, 255, 255, 0.8);
+  color: rgba(11, 11, 15, 0.85);
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.ls-filterCaret {
+  margin-left: 6px;
+  opacity: 0.8;
+}
+
+.ls-graphWrap {
+  border-radius: 18px;
+  padding: 0;
+  background: transparent;
+}
+
+.ls-graphSvg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.ls-cornersArrows {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+}
+
+.ls-cornerArrow {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border: 2px solid rgba(11, 11, 15, 0.12);
+  border-radius: 16px;
+  transform: rotate(8deg);
+  opacity: 0.8;
+}
+
+.ls-cornerArrow.left {
+  left: -22px;
+  top: 180px;
+  border-right: 0;
+  border-top: 0;
+  transform: rotate(-8deg);
+}
+
+.ls-cornerArrow.right {
+  right: -22px;
+  top: 190px;
+  border-left: 0;
+  border-bottom: 0;
+  transform: rotate(10deg);
+}
+
+@media (max-width: 920px) {
+  .ls-menu {
+    gap: 28px;
+  }
+  .ls-title {
+    font-size: 44px;
+  }
+  .ls-previewCard {
+    max-width: 720px;
+  }
+  .ls-sidebar {
+    width: 200px;
+  }
+}
+
+@media (max-width: 680px) {
+  .ls-menu {
+    display: none;
+  }
+  .ls-topNavInner {
+    justify-content: space-between;
+  }
+  .ls-title {
+    font-size: 34px;
+  }
+  .ls-previewCard {
+    min-height: 520px;
+  }
+  .ls-sidebar {
+    width: 170px;
+  }
+}
+

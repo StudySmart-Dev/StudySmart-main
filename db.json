@@ -1,0 +1,194 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "johndoe@gmail.com",
+      "password": "password",
+      "course": "cs",
+      "level": "ug",
+      "learningStyle": "Visual",
+      "availability": "Evenings"
+    },
+    {
+      "id": 2,
+      "name": "Aisha Khan",
+      "email": "aisha@gmail.com",
+      "password": "password",
+      "course": "ee",
+      "level": "grad",
+      "learningStyle": "Verbal",
+      "availability": "Mornings"
+    },
+    {
+      "id": 3,
+      "name": "Mateo Silva",
+      "email": "mateo@gmail.com",
+      "password": "password",
+      "course": "business",
+      "level": "ug",
+      "learningStyle": "Visual",
+      "availability": "Afternoons"
+    }
+  ],
+  "groups": [
+    {
+      "id": 101,
+      "institution": "AmaliTech",
+      "courseCode": "CS101",
+      "topic": "Data Structures",
+      "description": "Weekly problem-solving and concept refresh for CS101.",
+      "learningStyles": [
+        "Visual",
+        "Verbal"
+      ],
+      "availability": [
+        "Mornings",
+        "Evenings"
+      ],
+      "members": [
+        1
+      ]
+    },
+    {
+      "id": 102,
+      "institution": "AmaliTech",
+      "courseCode": "EE201",
+      "topic": "Circuits",
+      "description": "Circuit basics, practice sets, and quick doubt sessions.",
+      "learningStyles": [
+        "Visual"
+      ],
+      "availability": [
+        "Afternoons"
+      ],
+      "members": [
+        2
+      ]
+    },
+    {
+      "id": 103,
+      "institution": "CampusBridge",
+      "courseCode": "BUS330",
+      "topic": "Marketing Strategy",
+      "description": "Case-study based discussions and structured note reviews.",
+      "learningStyles": [
+        "Verbal"
+      ],
+      "availability": [
+        "Evenings"
+      ],
+      "members": [
+        3
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "id": 201,
+      "title": "CS101: Trees & Traversals Cheat Sheet",
+      "institution": "AmaliTech",
+      "courseCode": "CS101",
+      "topic": "Data Structures",
+      "content": "Preorder: Root, Left, Right. Inorder: Left, Root, Right. Postorder: Left, Right, Root.\n\nPractice: derive traversal outputs from given tree structure.",
+      "authorId": 1,
+      "upvotes": 12,
+      "downvotes": 1,
+      "votes": [
+        {
+          "userId": 1,
+          "value": 1
+        },
+        {
+          "userId": 2,
+          "value": 1
+        },
+        {
+          "userId": 3,
+          "value": 1
+        }
+      ],
+      "createdAt": "2026-03-18T10:00:00.000Z"
+    },
+    {
+      "id": 202,
+      "title": "EE201: KCL/KVL Quick Rules",
+      "institution": "AmaliTech",
+      "courseCode": "EE201",
+      "topic": "Circuits",
+      "content": "KCL: Sum of currents entering node equals sum leaving.\nKVL: Sum of voltage drops equals supply voltage (around a loop).",
+      "authorId": 2,
+      "upvotes": 8,
+      "downvotes": 0,
+      "votes": [
+        {
+          "userId": 2,
+          "value": 1
+        },
+        {
+          "userId": 1,
+          "value": 1
+        }
+      ],
+      "createdAt": "2026-03-17T10:00:00.000Z"
+    },
+    {
+      "id": 203,
+      "title": "BUS330: Case Study Framework (3-Step)",
+      "institution": "CampusBridge",
+      "courseCode": "BUS330",
+      "topic": "Marketing Strategy",
+      "content": "1) Situation analysis: market, competitors, customer segments.\n2) Strategy: positioning + channel choices.\n3) Execution + metrics: KPIs and timeline.",
+      "authorId": 3,
+      "upvotes": 1,
+      "downvotes": 1,
+      "votes": [
+        {
+          "userId": 3,
+          "value": 1
+        },
+        {
+          "userId": 1,
+          "value": -1
+        }
+      ],
+      "createdAt": "2026-03-19T10:00:00.000Z"
+    }
+  ],
+  "meetings": [
+    {
+      "id": 301,
+      "type": "scheduled",
+      "title": "CS101 Weekly Discussions",
+      "groupId": 101,
+      "scheduledAt": "2026-03-21T18:00:00.000Z",
+      "durationMinutes": 60,
+      "participants": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": 302,
+      "type": "scheduled",
+      "title": "EE201 Circuits Doubt Clearing",
+      "groupId": 102,
+      "scheduledAt": "2026-03-22T15:00:00.000Z",
+      "durationMinutes": 45,
+      "participants": [
+        2
+      ]
+    },
+    {
+      "id": 303,
+      "type": "dropin",
+      "title": "Drop-in: 15-min Quick Questions",
+      "groupId": 101,
+      "scheduledAt": "2026-03-20T16:30:00.000Z",
+      "durationMinutes": 15,
+      "participants": [
+        1
+      ]
+    }
+  ]
+}

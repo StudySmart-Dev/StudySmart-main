@@ -1,0 +1,620 @@
+.ds-shell {
+  min-height: 100vh;
+  background: #fff;
+  color: var(--text);
+}
+
+.ds-shell.ds-focusMode .ds-sidebar {
+  width: 86px;
+}
+
+.ds-shell.ds-focusMode .ds-sidebar .ds-sideLabel {
+  display: none;
+}
+
+.ds-shell.ds-focusMode .ds-topbar .ds-topRight {
+  display: none;
+}
+
+.ds-shell.ds-focusMode .ds-cardSubtle {
+  opacity: 0.4;
+}
+
+.ds-container {
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 18px 18px 44px;
+  display: flex;
+  gap: 16px;
+}
+
+.ds-sidebar {
+  width: 240px;
+  background: rgba(250, 250, 255, 0.95);
+  border: 1px solid rgba(17, 17, 26, 0.06);
+  border-radius: 20px;
+  padding: 14px 12px;
+  flex: 0 0 auto;
+}
+
+.ds-brandBadge {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 10px 10px 14px;
+}
+
+.ds-brandMark {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: rgba(11, 11, 15, 0.06);
+  border: 1px solid rgba(11, 11, 15, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ds-brandText {
+  font-weight: 950;
+  font-size: 14px;
+}
+
+.ds-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px 0 0;
+}
+
+.ds-navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 10px;
+  border-radius: 14px;
+  font-weight: 900;
+  font-size: 13px;
+  color: rgba(11, 11, 15, 0.78);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.ds-navItem:hover {
+  background: rgba(212, 231, 255, 0.35);
+}
+
+.ds-navItem.isActive {
+  background: rgba(212, 231, 255, 0.6);
+  border-color: rgba(11, 11, 15, 0.08);
+  color: rgba(11, 11, 15, 0.96);
+}
+
+.ds-sideDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(11, 11, 15, 0.14);
+}
+
+.ds-navItem.isActive .ds-sideDot {
+  background: rgba(11, 11, 15, 0.6);
+}
+
+.ds-sidebarFooter {
+  margin-top: 18px;
+  padding: 12px 10px;
+  border-top: 1px solid rgba(17, 17, 26, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ds-userRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ds-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 2px solid #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, #6aa7ff, #3e54ff);
+}
+
+.ds-userName {
+  font-weight: 950;
+  font-size: 13px;
+  line-height: 1.15;
+}
+
+.ds-userEmail {
+  font-weight: 800;
+  font-size: 11.5px;
+  opacity: 0.6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 170px;
+}
+
+.ds-contentWrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.ds-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 2px 16px;
+}
+
+.ds-topTitle {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 950;
+  letter-spacing: -0.01em;
+}
+
+.ds-topRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ds-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(17, 17, 26, 0.08);
+  padding: 8px 10px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.8);
+  font-weight: 900;
+  font-size: 12.5px;
+}
+
+.ds-toggle input {
+  width: 16px;
+  height: 16px;
+}
+
+.ds-logoutBtn {
+  border: 1px solid rgba(17, 17, 26, 0.08);
+  background: rgba(255, 255, 255, 0.8);
+  padding: 9px 12px;
+  border-radius: 14px;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.ds-grid2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.ds-card {
+  border-radius: 22px;
+  border: 1px solid rgba(17, 17, 26, 0.08);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 18px 18px;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.03);
+}
+
+.ds-cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.ds-cardTitle {
+  margin: 0;
+  font-weight: 950;
+  font-size: 18px;
+}
+
+.ds-cardSub {
+  margin: 6px 0 0;
+  font-size: 13px;
+  font-weight: 800;
+  opacity: 0.65;
+}
+
+.ds-pillBtn {
+  border: 1px solid rgba(17, 17, 26, 0.08);
+  background: rgba(255, 255, 255, 0.85);
+  padding: 8px 12px;
+  border-radius: 14px;
+  font-weight: 950;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.ds-notesToolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 4px 0 14px;
+}
+
+.ds-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ds-field label {
+  font-size: 11.5px;
+  font-weight: 950;
+  opacity: 0.7;
+}
+
+.ds-input {
+  border-radius: 999px;
+  border: 1px solid rgba(17, 17, 26, 0.14);
+  background: #fff;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 800;
+  outline: none;
+}
+
+.ds-notesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.ds-noteCard {
+  border-radius: 18px;
+  border: 1px solid rgba(17, 17, 26, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+  padding: 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.ds-noteTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ds-noteTitle {
+  font-weight: 950;
+  font-size: 14px;
+  margin: 0;
+}
+
+.ds-badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(212, 231, 255, 0.7);
+  border: 1px solid rgba(17, 17, 26, 0.08);
+  font-weight: 950;
+  font-size: 11.5px;
+  white-space: nowrap;
+}
+
+.ds-noteMeta {
+  font-size: 12px;
+  font-weight: 850;
+  opacity: 0.65;
+  line-height: 1.35;
+}
+
+.ds-notePreview {
+  font-size: 12.5px;
+  font-weight: 800;
+  opacity: 0.72;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.ds-noteActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ds-voteBtn {
+  flex: 0 0 auto;
+  border: 1px solid rgba(17, 17, 26, 0.1);
+  background: rgba(255, 255, 255, 0.85);
+  padding: 8px 10px;
+  border-radius: 14px;
+  font-weight: 950;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.ds-voteBtn.isOnUp {
+  background: rgba(45, 212, 191, 0.18);
+  border-color: rgba(45, 212, 191, 0.35);
+}
+
+.ds-voteBtn.isOnDown {
+  background: rgba(255, 107, 203, 0.14);
+  border-color: rgba(255, 107, 203, 0.35);
+}
+
+.ds-linkBtn {
+  border: 1px solid rgba(17, 17, 26, 0.1);
+  background: transparent;
+  padding: 8px 10px;
+  border-radius: 14px;
+  font-weight: 950;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.ds-meetingsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.ds-meetingCard {
+  border-radius: 18px;
+  border: 1px solid rgba(17, 17, 26, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+  padding: 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ds-meetingTitle {
+  margin: 0;
+  font-weight: 950;
+  font-size: 14px;
+}
+
+.ds-meetingLine {
+  font-size: 12.5px;
+  font-weight: 850;
+  opacity: 0.7;
+}
+
+.ds-primaryBtn {
+  width: 100%;
+  border: 0;
+  background: #0b0b0f;
+  color: #fff;
+  padding: 11px 12px;
+  border-radius: 16px;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.ds-secondaryBtn {
+  width: 100%;
+  border: 1px solid rgba(17, 17, 26, 0.1);
+  background: rgba(255, 255, 255, 0.85);
+  color: rgba(11, 11, 15, 0.9);
+  padding: 11px 12px;
+  border-radius: 16px;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.ds-actionRow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.ds-actionBtn {
+  width: auto !important;
+  flex: 0 0 auto;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+
+.ds-kvGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.ds-roomsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.ds-roomCanvasWrap {
+  border: 1px solid rgba(17, 17, 26, 0.08);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.ds-roomCanvasTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 12px;
+  border-bottom: 1px solid rgba(17, 17, 26, 0.08);
+}
+
+.ds-roomCanvasTop h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 950;
+}
+
+.ds-canvas {
+  width: 100%;
+  height: 460px;
+  display: block;
+  touch-action: none;
+}
+
+.ds-chatWrap {
+  border: 1px solid rgba(17, 17, 26, 0.08);
+  border-radius: 20px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ds-chatList {
+  flex: 1;
+  overflow: auto;
+  border-radius: 16px;
+  border: 1px solid rgba(17, 17, 26, 0.08);
+  padding: 12px;
+  background: rgba(250, 250, 255, 0.7);
+}
+
+.ds-chatMsg {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.ds-chatMsg:last-child {
+  margin-bottom: 0;
+}
+
+.ds-chatMsgName {
+  font-weight: 950;
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.ds-chatMsgText {
+  font-weight: 850;
+  font-size: 13px;
+}
+
+.ds-chatComposer {
+  display: flex;
+  gap: 10px;
+}
+
+.ds-chatInput {
+  flex: 1;
+  border-radius: 999px;
+  border: 1px solid rgba(17, 17, 26, 0.14);
+  background: #fff;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 800;
+  outline: none;
+}
+
+.ds-chatSend {
+  border: 0;
+  background: #0b0b0f;
+  color: #fff;
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.ds-timerWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 20px;
+  padding: 14px;
+  border: 1px solid rgba(17, 17, 26, 0.08);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.ds-timerTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ds-timerTop h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 950;
+}
+
+.ds-graphSvg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.ds-timerTime {
+  font-size: 34px;
+  font-weight: 980;
+  letter-spacing: -0.03em;
+}
+
+.ds-timerControls {
+  display: flex;
+  gap: 10px;
+}
+
+.ds-smallBtn {
+  flex: 1;
+  border-radius: 16px;
+  border: 1px solid rgba(17, 17, 26, 0.1);
+  background: rgba(255, 255, 255, 0.85);
+  padding: 10px 12px;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+@media (max-width: 1100px) {
+  .ds-notesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ds-meetingsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ds-roomsGrid {
+    grid-template-columns: 1fr;
+  }
+  .ds-canvas {
+    height: 360px;
+  }
+}
+
+@media (max-width: 720px) {
+  .ds-container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .ds-sidebar {
+    display: none;
+  }
+  .ds-notesGrid {
+    grid-template-columns: 1fr;
+  }
+  .ds-meetingsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+

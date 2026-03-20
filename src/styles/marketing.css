@@ -1,0 +1,170 @@
+.ls-marketingPage {
+  min-height: 100vh;
+}
+
+.ls-marketingMain {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 30px 28px 72px;
+}
+
+.ls-pagePill {
+  display: inline-block;
+  background: var(--pill);
+  color: #0b0b0f;
+  border: 1px solid rgba(11, 11, 15, 0.08);
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.ls-pageTitle {
+  margin: 14px 0 10px;
+  font-size: 44px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.ls-pageSubtitle {
+  margin: 0 0 24px;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(11, 11, 15, 0.58);
+  max-width: 760px;
+}
+
+.ls-cardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.ls-card {
+  border-radius: 18px;
+  border: 1px solid rgba(17, 17, 26, 0.08);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 16px 16px 18px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.03);
+}
+
+.ls-cardTitle {
+  margin: 10px 0 8px;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.ls-cardText {
+  margin: 0;
+  color: rgba(11, 11, 15, 0.62);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.ls-pricingGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.ls-plan {
+  border-radius: 22px;
+  border: 1px solid rgba(17, 17, 26, 0.08);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ls-plan.isFeatured {
+  border-color: rgba(11, 11, 15, 0.18);
+}
+
+.ls-planTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ls-planName {
+  font-size: 16px;
+  font-weight: 950;
+  margin: 0;
+}
+
+.ls-planPrice {
+  font-size: 20px;
+  font-weight: 950;
+  margin: 0;
+}
+
+.ls-planText {
+  margin: 10px 0 16px;
+  color: rgba(11, 11, 15, 0.62);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.ls-planList {
+  padding-left: 18px;
+  margin: 0 0 16px;
+  color: rgba(11, 11, 15, 0.66);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.ls-planCta {
+  width: 100%;
+  border: 0;
+  border-radius: 18px;
+  padding: 12px 14px;
+  background: #0b0b0f;
+  color: #fff;
+  font-weight: 950;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+
+.ls-contactGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.ls-contactBox {
+  border-radius: 18px;
+  border: 1px solid rgba(17, 17, 26, 0.08);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 16px;
+}
+
+.ls-textarea {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid rgba(11, 11, 15, 0.16);
+  padding: 12px 14px;
+  font-size: 13px;
+  background: #fff;
+  outline: none;
+  min-height: 120px;
+  resize: vertical;
+}
+
+@media (max-width: 920px) {
+  .ls-cardGrid,
+  .ls-pricingGrid {
+    grid-template-columns: 1fr;
+  }
+  .ls-pageTitle {
+    font-size: 34px;
+  }
+  .ls-contactGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
