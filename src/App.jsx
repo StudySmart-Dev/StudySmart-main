@@ -15,6 +15,7 @@ import DashboardOverview from './pages/dashboard/DashboardOverview.jsx';
 import DashboardSessions from './pages/dashboard/DashboardSessions.jsx';
 import DashboardGroups from './pages/dashboard/DashboardGroups.jsx';
 import DashboardCollaborators from './pages/dashboard/DashboardCollaborators.jsx';
+import DashboardLeaderboard from './pages/dashboard/DashboardLeaderboard.jsx';
 import StudyRoom from './pages/dashboard/StudyRoom.jsx';
 
 export default function App() {
@@ -54,6 +55,7 @@ export default function App() {
           <Route path="sessions" element={<DashboardSessions />} />
           <Route path="groups" element={<DashboardGroups />} />
           <Route path="collaborators" element={<DashboardCollaborators />} />
+          <Route path="leaderboard" element={<DashboardLeaderboard />} />
         </Route>
 
         <Route

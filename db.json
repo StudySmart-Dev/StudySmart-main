@@ -8,7 +8,21 @@
       "course": "cs",
       "level": "ug",
       "learningStyle": "Visual",
-      "availability": "Evenings"
+      "availability": "Evenings",
+      "xp": 8,
+      "rankTier": 1,
+      "upvoteCount": 0,
+      "downvoteCount": 0,
+      "notesCreatedCount": 0,
+      "joinedRoomsCount": 1,
+      "chatMessagesCount": 0,
+      "boardStrokesCount": 0,
+      "badges": [
+        {
+          "name": "First Room Join",
+          "earnedAt": "2026-03-20T16:26:05.748Z"
+        }
+      ]
     },
     {
       "id": 2,
@@ -18,7 +32,16 @@
       "course": "ee",
       "level": "grad",
       "learningStyle": "Verbal",
-      "availability": "Mornings"
+      "availability": "Mornings",
+      "xp": 4,
+      "rankTier": 1,
+      "upvoteCount": 2,
+      "downvoteCount": 0,
+      "notesCreatedCount": 0,
+      "joinedRoomsCount": 0,
+      "chatMessagesCount": 0,
+      "boardStrokesCount": 0,
+      "badges": []
     },
     {
       "id": 3,
@@ -28,7 +51,16 @@
       "course": "business",
       "level": "ug",
       "learningStyle": "Visual",
-      "availability": "Afternoons"
+      "availability": "Afternoons",
+      "xp": 4,
+      "rankTier": 1,
+      "upvoteCount": 2,
+      "downvoteCount": 0,
+      "notesCreatedCount": 0,
+      "joinedRoomsCount": 0,
+      "chatMessagesCount": 0,
+      "boardStrokesCount": 0,
+      "badges": []
     }
   ],
   "groups": [
@@ -190,5 +222,8 @@
         1
       ]
     }
-  ]
+  ],
+  "meetingMessages": [],
+  "whiteboards": [],
+  "xpEvents": []
 }

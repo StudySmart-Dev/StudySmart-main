@@ -66,6 +66,26 @@ export default function Pricing() {
             </Link>
           </div>
         </div>
+
+        <div style={{ marginTop: 22, display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+          <Link className="ls-ctaBtn" to="/create-account" style={{ display: 'inline-flex', textDecoration: 'none' }}>
+            Start studying with StudySmart
+          </Link>
+          <Link
+            to="/dashboard"
+            style={{
+              border: '1px solid rgba(17, 17, 26, 0.12)',
+              background: 'rgba(255,255,255,0.9)',
+              color: '#0b0b0f',
+              padding: '12px 18px',
+              borderRadius: 12,
+              fontWeight: 900,
+              textDecoration: 'none'
+            }}
+          >
+            Preview dashboard
+          </Link>
+        </div>
       </main>
     </div>
   );

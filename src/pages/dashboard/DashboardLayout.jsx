@@ -4,6 +4,7 @@ import { Outlet, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext.jsx';
 
 import '../../styles/dashboard.css';
+import { getTierByXp } from '../../achievements/achievementEngine.js';
 
 function Toggle({ checked, label, onChange }) {
   return (
@@ -46,6 +47,7 @@ export default function DashboardLayout() {
     if (location.pathname.includes('sessions')) return 'Sessions';
     if (location.pathname.includes('groups')) return 'Groups';
     if (location.pathname.includes('collaborators')) return 'Collaborators';
+    if (location.pathname.includes('leaderboard')) return 'Leaderboard';
     return 'Overview';
   }, [location.pathname]);
 
@@ -99,6 +101,14 @@ export default function DashboardLayout() {
               <span className="ds-sideDot" aria-hidden="true" />
               <span className="ds-sideLabel">Collaborators</span>
             </NavLink>
+
+            <NavLink
+              className={({ isActive }) => `ds-navItem ${isActive ? 'isActive' : ''}`}
+              to="/dashboard/leaderboard"
+            >
+              <span className="ds-sideDot" aria-hidden="true" />
+              <span className="ds-sideLabel">Leaderboard</span>
+            </NavLink>
           </nav>
 
           <div className="ds-sidebarFooter">
@@ -108,6 +118,9 @@ export default function DashboardLayout() {
                 <div style={{ minWidth: 0 }}>
                   <div className="ds-userName">{user.name}</div>
                   <div className="ds-userEmail">{user.email}</div>
+                  <div className="ds-userEmail" style={{ opacity: 0.9, marginTop: 6 }}>
+                    Rank: {getTierByXp(user.xp).name} • {user.xp} XP
+                  </div>
                 </div>
               </div>
             ) : null}

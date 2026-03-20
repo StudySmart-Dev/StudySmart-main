@@ -3,6 +3,12 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 
 import { useAuth } from '../../auth/AuthContext.jsx';
 import * as api from '../../api/apiClient.js';
+import {
+  awardForDownvote,
+  awardForNoteUpload,
+  awardForUpvote,
+  normalizeUser
+} from '../../achievements/achievementEngine.js';
 
 import '../../styles/dashboard.css';
 
@@ -79,7 +85,7 @@ function Modal({ title, onClose, children }) {
 
 export default function DashboardOverview() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const { lowBandwidth } = useOutletContext();
 
   const [notes, setNotes] = useState([]);
@@ -91,6 +97,7 @@ export default function DashboardOverview() {
   const [uploadOpen, setUploadOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadStatus, setUploadStatus] = useState({ type: '', message: '' });
+  const [xpToast, setXpToast] = useState('');
 
   const [newNote, setNewNote] = useState({
     title: '',
@@ -101,6 +108,7 @@ export default function DashboardOverview() {
   });
 
   const [previewNote, setPreviewNote] = useState(null);
+  const [quizShowAnswers, setQuizShowAnswers] = useState(false);
 
   function downloadText(filename, text) {
     const safeName = String(filename || 'StudySmart_Note')
@@ -178,6 +186,71 @@ export default function DashboardOverview() {
       });
   }, [notes, search]);
 
+  useEffect(() => {
+    if (!xpToast) return;
+    const t = window.setTimeout(() => setXpToast(''), 2500);
+    return () => window.clearTimeout(t);
+  }, [xpToast]);
+
+  useEffect(() => {
+    setQuizShowAnswers(false);
+  }, [previewNote]);
+
+  const smartTools = useMemo(() => {
+    if (!previewNote) return null;
+    const raw = String(previewNote.content || '');
+    const lines = raw
+      .split('\n')
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    const sentences = raw
+      .replace(/\n/g, ' ')
+      .split(/[.!?]+/g)
+      .map((s) => s.trim())
+      .filter((s) => s.length > 8);
+
+    const topSummary = (lowBandwidth ? sentences.slice(0, 2) : sentences.slice(0, 3)).slice(0, 3);
+    const summary = topSummary.join('. ') || (lines[0] ? lines[0] : 'No summary available.');
+
+    const practiceLine = lines.find((l) => l.toLowerCase().startsWith('practice')) || lines.find((l) => l.toLowerCase().includes('practice'));
+    const keyLine = lines.find((l) => l.toLowerCase().includes('preorder') || l.toLowerCase().includes('inorder') || l.toLowerCase().includes('postorder') || l.toLowerCase().includes('kcl') || l.toLowerCase().includes('kvl'));
+    const lastLine = lines[lines.length - 1] || '';
+
+    const quiz = [
+      {
+        q: `In your own words, what is the main idea of “${previewNote.topic}”?`,
+        a: summary
+      },
+      {
+        q: 'Which key rule/definition should you remember from this note?',
+        a: keyLine || lines[1] || summary
+      },
+      {
+        q: 'What practice step would you do next (from the note)?',
+        a: practiceLine || 'Take the next section and try one example from start to finish.'
+      },
+      {
+        q: 'What should you review right before the exam/problem set?',
+        a: lastLine || 'Re-read the summary and ensure you can apply it to one new example.'
+      }
+    ];
+
+    return { summary, quiz };
+  }, [previewNote, lowBandwidth]);
+
+  async function persistUserUpdated(nextUser, earned) {
+    if (!nextUser?.id) return;
+    const saved = await api.replace('users', nextUser.id, nextUser);
+    updateUser(saved);
+    if (earned?.xpDelta) {
+      setXpToast(`+${earned.xpDelta} XP`);
+    }
+    if (earned?.badges && earned.badges.length) {
+      setXpToast(`Badge earned: ${earned.badges[0]}`);
+    }
+  }
+
   const topCredits = useMemo(() => {
     const sorted = [...creditsByUserId.entries()].sort((a, b) => b[1] - a[1]);
     return new Set(sorted.slice(0, 2).map((x) => x[0]));
@@ -193,6 +266,7 @@ export default function DashboardOverview() {
 
     // Toggle logic: clicking same direction removes vote; otherwise sets to desired
     const alreadySame = existing && Number(existing.value) === desired;
+    const nextVote = alreadySame ? 0 : desired;
     if (!alreadySame) nextVotes.push({ userId: user.id, value: desired });
 
     const upvotes = nextVotes.filter((v) => v.value === 1).length;
@@ -201,6 +275,12 @@ export default function DashboardOverview() {
     const updated = { ...current, votes: nextVotes, upvotes, downvotes };
     const saved = await api.replace('notes', current.id, updated);
     setNotes((prev) => prev.map((n) => (n.id === current.id ? saved : n)));
+
+    // XP awarding only when vote is set (not removed)
+    if (nextVote === -1) {
+      const { user: nextUser, earned } = awardForDownvote({ user: normalizeUser(user) });
+      await persistUserUpdated(nextUser, earned);
+    }
   }
 
   async function upvote(note) {
@@ -211,6 +291,7 @@ export default function DashboardOverview() {
 
     const nextVotes = [...(current.votes || [])].filter((v) => Number(v.userId) !== Number(user.id));
     const alreadySame = existing && Number(existing.value) === desired;
+    const nextVote = alreadySame ? 0 : desired;
     if (!alreadySame) nextVotes.push({ userId: user.id, value: desired });
 
     const upvotes = nextVotes.filter((v) => v.value === 1).length;
@@ -219,6 +300,12 @@ export default function DashboardOverview() {
     const updated = { ...current, votes: nextVotes, upvotes, downvotes };
     const saved = await api.replace('notes', current.id, updated);
     setNotes((prev) => prev.map((n) => (n.id === current.id ? saved : n)));
+
+    // XP awarding only when vote is set (not removed)
+    if (nextVote === 1) {
+      const { user: nextUser, earned } = awardForUpvote({ user: normalizeUser(user), xpDelta: 2 });
+      await persistUserUpdated(nextUser, earned);
+    }
   }
 
   const scheduled = useMemo(() => {
@@ -312,6 +399,24 @@ export default function DashboardOverview() {
             aria-live="polite"
           >
             {uploadStatus.message}
+          </div>
+        ) : null}
+
+        {xpToast ? (
+          <div
+            style={{
+              margin: '10px 0 6px',
+              color: '#0b0b0f',
+              fontWeight: 950,
+              fontSize: 13,
+              background: 'rgba(212, 231, 255, 0.7)',
+              border: '1px solid rgba(17, 17, 26, 0.08)',
+              padding: '8px 12px',
+              borderRadius: 14
+            }}
+            aria-live="polite"
+          >
+            {xpToast}
           </div>
         ) : null}
 
@@ -433,6 +538,11 @@ export default function DashboardOverview() {
                   setNewNote({ title: '', institution: '', courseCode: '', topic: '', content: '' });
                   setUploadOpen(false);
                   setUploadStatus({ type: 'success', message: 'Note uploaded successfully.' });
+                  setPreviewNote(created);
+
+                  // XP for note upload
+                  const { user: nextUser, earned } = awardForNoteUpload({ user: normalizeUser(user), xp: 15 });
+                  await persistUserUpdated(nextUser, earned);
                 } catch (err) {
                   setUploadStatus({ type: 'error', message: err?.message || 'Failed to upload note.' });
                 } finally {
@@ -606,6 +716,54 @@ export default function DashboardOverview() {
             >
               {previewNote.content}
             </div>
+
+            {smartTools ? (
+              <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: lowBandwidth ? '1fr' : '1fr 1fr', gap: 12 }}>
+                <div
+                  style={{
+                    border: '1px solid rgba(17, 17, 26, 0.08)',
+                    borderRadius: 18,
+                    padding: 14,
+                    background: 'rgba(255,255,255,0.88)'
+                  }}
+                >
+                  <div style={{ fontWeight: 980, marginBottom: 8, fontSize: 14 }}>AI Summary</div>
+                  <div style={{ fontWeight: 850, opacity: 0.75, lineHeight: 1.45, fontSize: 13 }}>{smartTools.summary}</div>
+                </div>
+
+                <div
+                  style={{
+                    border: '1px solid rgba(17, 17, 26, 0.08)',
+                    borderRadius: 18,
+                    padding: 14,
+                    background: 'rgba(255,255,255,0.88)'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+                    <div style={{ fontWeight: 980, fontSize: 14 }}>Practice Quiz</div>
+                    <button
+                      className="ds-pillBtn"
+                      type="button"
+                      style={{ padding: '8px 10px' }}
+                      onClick={() => setQuizShowAnswers((v) => !v)}
+                    >
+                      {quizShowAnswers ? 'Hide answers' : 'Reveal answers'}
+                    </button>
+                  </div>
+
+                  <div style={{ marginTop: 10, display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    {smartTools.quiz.map((item, idx) => (
+                      <div key={idx} style={{ borderRadius: 14, border: '1px solid rgba(17, 17, 26, 0.06)', padding: 10, background: 'rgba(250,250,255,0.6)' }}>
+                        <div style={{ fontWeight: 980, fontSize: 12.5, opacity: 0.9, marginBottom: 4 }}>{idx + 1}. {item.q}</div>
+                        <div style={{ fontWeight: 850, opacity: quizShowAnswers ? 0.8 : 0.35, lineHeight: 1.45, fontSize: 13 }}>
+                          {quizShowAnswers ? item.a : 'Answer hidden (tap reveal answers).'}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : null}
 
             <div className="ds-actionRow">
               <button

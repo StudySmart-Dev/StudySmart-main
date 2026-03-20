@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../auth/AuthContext.jsx';
 import * as api from '../../api/apiClient.js';
+import { hasBadge } from '../../achievements/achievementEngine.js';
 
 import '../../styles/dashboard.css';
 
@@ -14,6 +15,7 @@ export default function DashboardGroups() {
   const { user } = useAuth();
 
   const [groups, setGroups] = useState([]);
+  const [notes, setNotes] = useState([]);
   const [toast, setToast] = useState('');
 
   const [filters, setFilters] = useState({
@@ -27,9 +29,10 @@ export default function DashboardGroups() {
   useEffect(() => {
     let alive = true;
     async function load() {
-      const res = await api.getAll('groups');
+      const [resGroups, resNotes] = await Promise.all([api.getAll('groups'), api.getAll('notes')]);
       if (!alive) return;
-      setGroups(res);
+      setGroups(resGroups);
+      setNotes(resNotes);
     }
     load().catch(() => {});
     return () => {
@@ -53,6 +56,19 @@ export default function DashboardGroups() {
     return [...s];
   }, [groups]);
 
+  const interestByTopic = useMemo(() => {
+    const map = new Map();
+    if (!user) return map;
+    for (const n of notes) {
+      const v = (n.votes || []).find((x) => Number(x.userId) === Number(user.id));
+      if (!v || !n.topic) continue;
+      const key = String(n.topic).toLowerCase();
+      const delta = Number(v.value) === 1 ? 1 : -1;
+      map.set(key, (map.get(key) || 0) + delta);
+    }
+    return map;
+  }, [notes, user]);
+
   const matches = useMemo(() => {
     const inst = filters.institution.trim().toLowerCase();
     const cc = filters.courseCode.trim().toLowerCase();
@@ -67,6 +83,26 @@ export default function DashboardGroups() {
       if (top && (g.topic || '').toLowerCase().includes(top)) s += 1.25;
       if (ls && (g.learningStyles || []).includes(ls)) s += 1.5;
       if (av && (g.availability || []).includes(av)) s += 1.5;
+
+      // AI-like scoring based on what the user actively rewarded/criticized.
+      if (user && interestByTopic.size) {
+        const gTopic = String(g.topic || '').toLowerCase();
+        let topicScore = 0;
+        for (const [t, sc] of interestByTopic.entries()) {
+          if (!t) continue;
+          if (gTopic.includes(t)) topicScore += sc;
+        }
+        // Normalize a bit to avoid overwhelming filter scores
+        s += Math.max(-1.5, Math.min(1.5, topicScore * 0.6));
+      }
+
+      // Rank & badges influence recommendation visibility.
+      if (user) {
+        const rankBoost = Math.max(0, Number(user.rankTier || 1) - 1) * 0.12;
+        s += Math.min(1.2, rankBoost);
+        if (hasBadge(user, 'Strict monitor')) s += 0.6;
+      }
+
       // Prefer groups the user hasn't joined yet (small boost)
       if (user && !(g.members || []).includes(user.id)) s += 0.35;
       return s;
@@ -77,7 +113,7 @@ export default function DashboardGroups() {
       .filter((x) => x.s > 0 || (!inst && !cc && !top && !ls && !av))
       .sort((a, b) => b.s - a.s)
       .map((x) => x.g);
-  }, [groups, filters, user]);
+  }, [groups, filters, user, interestByTopic]);
 
   return (
     <div className="ds-grid2" aria-label="Dashboard groups page">

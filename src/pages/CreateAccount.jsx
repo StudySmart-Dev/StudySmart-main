@@ -55,7 +55,16 @@ export default function CreateAccount() {
                   course: form.course,
                   level: form.level,
                   learningStyle: 'Visual',
-                  availability: 'Evenings'
+                  availability: 'Evenings',
+                  xp: 0,
+                  rankTier: 1,
+                  upvoteCount: 0,
+                  downvoteCount: 0,
+                  notesCreatedCount: 0,
+                  joinedRoomsCount: 0,
+                  chatMessagesCount: 0,
+                  boardStrokesCount: 0,
+                  badges: []
                 };
 
                 await signup(payload);
