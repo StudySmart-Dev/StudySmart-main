@@ -1,5 +1,57 @@
 # StudySmart
 
+StudySmart combines a **collaborative study dashboard** with a **crowdsourced note hub**.
+
+## Tech Stack
+- HTML
+- CSS
+- JavaScript
+- React.js (Vite)
+- Node.js
+- JSON Server
+- Mock API
+
+## Key Features
+- Note upload (typed content + file upload: PDF, DOCX, PPTX, TXT/MD/JSON)
+- AI-powered summary and explain actions:
+  - Explain more
+  - Explain simpler
+  - Give example
+  - Custom explain prompt
+- Note preview, download, upvote/downvote
+- Study room with synced chat + whiteboard + Pomodoro
+- Focus Mode and Low-Bandwidth Mode
+- XP, rank tiers, badges (including **Strict monitor**), leaderboard
+
+## Local Setup
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Create env file:
+   - Copy `.env.example` to `.env`
+   - Add your key:
+   ```env
+   OPENAI_API_KEY=your_openai_api_key_here
+   ```
+3. Run all services:
+   ```bash
+   npm run dev:all
+   ```
+
+### Local URLs
+- Frontend: `http://localhost:5173`
+- JSON Server: `http://localhost:3001`
+- Node/AI Server: `http://localhost:3002`
+
+## Deployment Notes (Vercel + Render)
+- Frontend: deploy to **Vercel**
+- API services:
+  - JSON Server + Node AI server can be deployed on **Render**
+  - Set `OPENAI_API_KEY` in Render environment variables
+
+# StudySmart
+
 **StudySmart** is an integrated academic platform that combines a **Study Group Management System** with a **Crowdsourced Note-Exchange Hub** to help students move from solitary studying to collaborative success.
 
 ## MVP Features (currently implemented)

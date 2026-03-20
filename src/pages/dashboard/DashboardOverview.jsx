@@ -106,9 +106,14 @@ export default function DashboardOverview() {
     topic: '',
     content: ''
   });
+  const [noteFile, setNoteFile] = useState(null);
+  const [noteFileType, setNoteFileType] = useState('pdf');
 
   const [previewNote, setPreviewNote] = useState(null);
   const [quizShowAnswers, setQuizShowAnswers] = useState(false);
+  const [explainLoading, setExplainLoading] = useState(false);
+  const [explainText, setExplainText] = useState('');
+  const [customExplainPrompt, setCustomExplainPrompt] = useState('');
 
   function downloadText(filename, text) {
     const safeName = String(filename || 'StudySmart_Note')
@@ -194,6 +199,8 @@ export default function DashboardOverview() {
 
   useEffect(() => {
     setQuizShowAnswers(false);
+    setExplainText('');
+    setCustomExplainPrompt('');
   }, [previewNote]);
 
   const smartTools = useMemo(() => {
@@ -211,7 +218,10 @@ export default function DashboardOverview() {
       .filter((s) => s.length > 8);
 
     const topSummary = (lowBandwidth ? sentences.slice(0, 2) : sentences.slice(0, 3)).slice(0, 3);
-    const summary = topSummary.join('. ') || (lines[0] ? lines[0] : 'No summary available.');
+    const summary =
+      String(previewNote.aiSummary || '').trim() ||
+      topSummary.join('. ') ||
+      (lines[0] ? lines[0] : 'No summary available.');
 
     const practiceLine = lines.find((l) => l.toLowerCase().startsWith('practice')) || lines.find((l) => l.toLowerCase().includes('practice'));
     const keyLine = lines.find((l) => l.toLowerCase().includes('preorder') || l.toLowerCase().includes('inorder') || l.toLowerCase().includes('postorder') || l.toLowerCase().includes('kcl') || l.toLowerCase().includes('kvl'));
@@ -488,6 +498,33 @@ export default function DashboardOverview() {
             </label>
 
             <div style={{ height: 10 }} />
+            <div className="ds-kvGrid">
+              <label className="ds-field">
+                <span style={{ fontSize: 11.5, fontWeight: 950, opacity: 0.7 }}>File Type</span>
+                <select
+                  className="ds-input"
+                  value={noteFileType}
+                  onChange={(e) => setNoteFileType(e.target.value)}
+                >
+                  <option value="pdf">PDF</option>
+                  <option value="docx">Word (DOCX)</option>
+                  <option value="pptx">PowerPoint (PPTX)</option>
+                  <option value="txt">Text (TXT/MD)</option>
+                </select>
+              </label>
+
+              <label className="ds-field">
+                <span style={{ fontSize: 11.5, fontWeight: 950, opacity: 0.7 }}>Upload file (optional)</span>
+                <input
+                  className="ds-input"
+                  type="file"
+                  accept=".pdf,.docx,.pptx,.txt,.md,.json"
+                  onChange={(e) => setNoteFile(e.target.files?.[0] || null)}
+                />
+              </label>
+            </div>
+
+            <div style={{ height: 10 }} />
             <button
               className="ds-primaryBtn"
               type="button"
@@ -507,7 +544,36 @@ export default function DashboardOverview() {
                   return;
                 }
                 if (!content || content.length < 20) {
-                  setUploadStatus({ type: 'error', message: 'Please enter note content (min 20 characters).' });
+                  if (!noteFile) {
+                    setUploadStatus({
+                      type: 'error',
+                      message: 'Please provide note content (min 20 chars) or upload a supported file.'
+                    });
+                    return;
+                  }
+                }
+
+                if (noteFile) {
+                  const ext = (noteFile.name.split('.').pop() || '').toLowerCase();
+                  const allowed = ['pdf', 'docx', 'pptx', 'txt', 'md', 'json'];
+                  if (!allowed.includes(ext)) {
+                    setUploadStatus({
+                      type: 'error',
+                      message: 'Unsupported file type. Use PDF, DOCX, PPTX, TXT, MD, or JSON.'
+                    });
+                    return;
+                  }
+                  if (noteFileType !== ext && !(noteFileType === 'txt' && ['txt', 'md', 'json'].includes(ext))) {
+                    setUploadStatus({
+                      type: 'error',
+                      message: `Selected type (${noteFileType}) does not match file extension (.${ext}).`
+                    });
+                    return;
+                  }
+                }
+
+                if (!content && !noteFile) {
+                  setUploadStatus({ type: 'error', message: 'Add typed content or upload a file.' });
                   return;
                 }
                 if (!institution || !courseCode || !topic) {
@@ -520,22 +586,20 @@ export default function DashboardOverview() {
 
                 try {
                   setUploading(true);
-                  const payload = {
-                    title,
-                    institution,
-                    courseCode,
-                    topic,
-                    content,
-                    authorId: user.id,
-                    votes: [],
-                    upvotes: 0,
-                    downvotes: 0,
-                    createdAt: new Date().toISOString()
-                  };
+                  const fd = new FormData();
+                  fd.append('title', title);
+                  fd.append('institution', institution);
+                  fd.append('courseCode', courseCode);
+                  fd.append('topic', topic);
+                  fd.append('authorId', String(user.id));
+                  fd.append('content', content);
+                  if (noteFile) fd.append('file', noteFile);
 
-                  const created = await api.create('notes', payload);
+                  const { note: created } = await api.uploadNoteWithFile(fd);
                   setNotes((prev) => [created, ...prev]);
                   setNewNote({ title: '', institution: '', courseCode: '', topic: '', content: '' });
+                  setNoteFile(null);
+                  setNoteFileType('pdf');
                   setUploadOpen(false);
                   setUploadStatus({ type: 'success', message: 'Note uploaded successfully.' });
                   setPreviewNote(created);
@@ -764,6 +828,119 @@ export default function DashboardOverview() {
                 </div>
               </div>
             ) : null}
+
+            <div
+              style={{
+                marginTop: 12,
+                border: '1px solid rgba(17, 17, 26, 0.08)',
+                borderRadius: 18,
+                padding: 14,
+                background: 'rgba(255,255,255,0.92)'
+              }}
+            >
+              <div style={{ fontWeight: 980, fontSize: 14, marginBottom: 10 }}>Explain this note</div>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                <button
+                  className="ds-pillBtn"
+                  type="button"
+                  onClick={async () => {
+                    setExplainLoading(true);
+                    try {
+                      const out = await api.aiExplain({ text: previewNote.content, mode: 'more' });
+                      setExplainText(out.response || '');
+                    } finally {
+                      setExplainLoading(false);
+                    }
+                  }}
+                >
+                  Explain more
+                </button>
+                <button
+                  className="ds-pillBtn"
+                  type="button"
+                  onClick={async () => {
+                    setExplainLoading(true);
+                    try {
+                      const out = await api.aiExplain({ text: previewNote.content, mode: 'simpler' });
+                      setExplainText(out.response || '');
+                    } finally {
+                      setExplainLoading(false);
+                    }
+                  }}
+                >
+                  Explain simpler
+                </button>
+                <button
+                  className="ds-pillBtn"
+                  type="button"
+                  onClick={async () => {
+                    setExplainLoading(true);
+                    try {
+                      const out = await api.aiExplain({ text: previewNote.content, mode: 'example' });
+                      setExplainText(out.response || '');
+                    } finally {
+                      setExplainLoading(false);
+                    }
+                  }}
+                >
+                  Give example
+                </button>
+              </div>
+
+              <div style={{ marginTop: 10, display: 'flex', gap: 8 }}>
+                <input
+                  className="ds-input"
+                  style={{ flex: 1 }}
+                  value={customExplainPrompt}
+                  onChange={(e) => setCustomExplainPrompt(e.target.value)}
+                  placeholder="Custom instruction (e.g., explain as if I am new to this)"
+                />
+                <button
+                  className="ds-pillBtn"
+                  type="button"
+                  onClick={async () => {
+                    setExplainLoading(true);
+                    try {
+                      const out = await api.aiExplain({
+                        text: previewNote.content,
+                        mode: 'custom',
+                        customPrompt: customExplainPrompt
+                      });
+                      setExplainText(out.response || '');
+                    } finally {
+                      setExplainLoading(false);
+                    }
+                  }}
+                >
+                  Custom
+                </button>
+              </div>
+
+              {explainLoading ? (
+                <div style={{ marginTop: 10, fontWeight: 900, fontSize: 13, opacity: 0.7 }}>
+                  AI is thinking...
+                </div>
+              ) : null}
+
+              {explainText ? (
+                <div
+                  style={{
+                    marginTop: 10,
+                    whiteSpace: 'pre-wrap',
+                    fontWeight: 850,
+                    opacity: 0.8,
+                    lineHeight: 1.5,
+                    fontSize: 13,
+                    border: '1px solid rgba(17, 17, 26, 0.06)',
+                    borderRadius: 14,
+                    padding: 10,
+                    background: 'rgba(250,250,255,0.7)'
+                  }}
+                >
+                  {explainText}
+                </div>
+              ) : null}
+            </div>
 
             <div className="ds-actionRow">
               <button
