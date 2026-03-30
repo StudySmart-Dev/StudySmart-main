@@ -1,0 +1,19 @@
+# Render Blueprint — JSON Server for StudySmart (db.json)
+#
+# Deploy: Render Dashboard → New → Blueprint → Connect this repo → apply.
+# After the service is live, use its URL (https://<service-name>.onrender.com) as:
+#   - VITE_API_URL  (Vercel, no trailing slash)
+#   - JSON_SERVER_URL (Vercel, same value)
+#
+# Private org repos: grant the Render GitHub app access to the org/repo first.
+
+services:
+  - type: web
+    name: studysmart-json
+    runtime: node
+    plan: free
+    region: oregon
+    branch: main
+    buildCommand: npm install
+    startCommand: npx json-server --watch db.json --port $PORT --host 0.0.0.0 --cors
+    healthCheckPath: /users
