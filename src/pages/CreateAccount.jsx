@@ -87,7 +87,7 @@ export default function CreateAccount() {
                 className="ls-input"
                 value={form.name}
                 onChange={setField('name')}
-                placeholder="John Doe"
+                placeholder="Osioh Glenn"
                 autoComplete="name"
               />
             </label>
@@ -98,7 +98,7 @@ export default function CreateAccount() {
                 className="ls-input"
                 value={form.email}
                 onChange={setField('email')}
-                placeholder="johndoe@gmail.com"
+                placeholder="glennosioh@gmail.com"
                 autoComplete="email"
               />
             </label>

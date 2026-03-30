@@ -21,6 +21,7 @@ function SidebarNavLinks({ onNavigate, collapsed }) {
   return (
     <nav className="ds-nav" aria-label="Dashboard sidebar links">
       <NavLink
+        end
         className={({ isActive }) => `ds-navItem ${isActive ? 'isActive' : ''}`}
         to="/dashboard"
         onClick={onNavigate}

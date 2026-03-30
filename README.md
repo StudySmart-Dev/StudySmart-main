@@ -151,7 +151,7 @@ Data is in `db.json` and is exposed by JSON Server at `http://localhost:3001`:
 - **Render (or similar):** run JSON Server with `db.json` and set `JSON_SERVER_URL` / `VITE_API_URL` on Vercel to that public URL.
 
 ## Seed credentials (from `db.json`)
-- Email: `johndoe@gmail.com`
+- Email: `glennosioh@gmail.com`
 - Password: `password`
 
 # StudySmart
