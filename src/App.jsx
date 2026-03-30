@@ -9,6 +9,7 @@ import Contact from './pages/Contact.jsx';
 
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import PublicRoute from './components/PublicRoute.jsx';
+import ProductionConfigBanner from './components/ProductionConfigBanner.jsx';
 
 import DashboardLayout from './pages/dashboard/DashboardLayout.jsx';
 import DashboardOverview from './pages/dashboard/DashboardOverview.jsx';
@@ -21,6 +22,7 @@ import StudyRoom from './pages/dashboard/StudyRoom.jsx';
 export default function App() {
   return (
     <BrowserRouter>
+      <ProductionConfigBanner />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />

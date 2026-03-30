@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import TopNav from '../ui/TopNav.jsx';
 import { useAuth } from '../auth/AuthContext.jsx';
+import { CSM_COURSES } from '../data/csmCourses.js';
 
 import '../styles/auth.css';
 
@@ -17,6 +18,7 @@ export default function CreateAccount() {
     email: '',
     password: '',
     confirmPassword: '',
+    institution: '',
     course: '',
     level: '',
   });
@@ -46,12 +48,17 @@ export default function CreateAccount() {
                 setError('Passwords do not match');
                 return;
               }
+              if (!form.institution.trim()) {
+                setError('Institution / school is required');
+                return;
+              }
 
               try {
                 const payload = {
                   name: form.name.trim(),
                   email: form.email.trim(),
                   password: form.password,
+                  institution: form.institution.trim(),
                   course: form.course,
                   level: form.level,
                   learningStyle: 'Visual',
@@ -122,6 +129,17 @@ export default function CreateAccount() {
               </label>
             </div>
 
+            <label>
+              <span className="ls-fieldLabel">Institution / School</span>
+              <input
+                className="ls-input"
+                value={form.institution}
+                onChange={setField('institution')}
+                placeholder="e.g., KNUST"
+                autoComplete="organization"
+              />
+            </label>
+
             <div className="ls-row2Tight">
               <label>
                 <span className="ls-fieldLabel">Course</span>
@@ -131,9 +149,11 @@ export default function CreateAccount() {
                   onChange={setField('course')}
                 >
                   <option value="">Select</option>
-                  <option value="cs">Computer Science</option>
-                  <option value="ee">Electrical Engineering</option>
-                  <option value="business">Business</option>
+                  {CSM_COURSES.map((c) => (
+                    <option key={c.code} value={c.code}>
+                      {c.label}
+                    </option>
+                  ))}
                 </select>
               </label>
 

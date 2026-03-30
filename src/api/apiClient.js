@@ -1,8 +1,37 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-const SERVER_API_URL = import.meta.env.VITE_SERVER_API_URL || '/api';
+const envJsonUrl = (import.meta.env.VITE_API_URL || '').trim().replace(/\/$/, '');
+const isDev = import.meta.env.DEV;
+
+/** JSON Server base URL. In production, VITE_API_URL must be set at build time (never localhost). */
+export const JSON_API_BASE_URL = isDev
+  ? envJsonUrl || 'http://localhost:3001'
+  : envJsonUrl;
+
+const SERVER_API_URL = (import.meta.env.VITE_SERVER_API_URL || '/api').replace(/\/+$/, '') || '/api';
+
+/** True when the deployed site will try to call your laptop instead of a real API */
+export function isJsonApiMisconfiguredForProduction() {
+  if (!import.meta.env.PROD) return false;
+  if (!JSON_API_BASE_URL) return true;
+  const h = JSON_API_BASE_URL.toLowerCase();
+  return h.includes('localhost') || h.includes('127.0.0.1');
+}
 
 async function request(path, options = {}) {
-  const res = await fetch(`${API_URL}${path}`, {
+  if (!JSON_API_BASE_URL) {
+    throw new Error(
+      'JSON API is not configured: VITE_API_URL is missing. In Vercel → Settings → Environment Variables, set VITE_API_URL to your hosted JSON Server URL (HTTPS, no trailing slash), then redeploy.'
+    );
+  }
+  if (import.meta.env.PROD) {
+    const h = JSON_API_BASE_URL.toLowerCase();
+    if (h.includes('localhost') || h.includes('127.0.0.1')) {
+      throw new Error(
+        'VITE_API_URL points to localhost — valid only on your computer. Set it to your public JSON Server URL on Vercel and rebuild.'
+      );
+    }
+  }
+
+  const res = await fetch(`${JSON_API_BASE_URL}${path}`, {
     headers: {
       'Content-Type': 'application/json',
       ...(options.headers || {})

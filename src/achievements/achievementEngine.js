@@ -22,6 +22,7 @@ export const BADGES = {
 export function normalizeUser(user) {
   return {
     ...user,
+    institution: user?.institution != null ? String(user.institution) : '',
     xp: Number(user?.xp || 0),
     rankTier: Number(user?.rankTier || 1),
     upvoteCount: Number(user?.upvoteCount || 0),

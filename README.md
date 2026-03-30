@@ -30,10 +30,7 @@ StudySmart combines a **collaborative study dashboard** with a **crowdsourced no
    ```
 2. Create env file:
    - Copy `.env.example` to `.env`
-   - Add your key:
-   ```env
-   OPENAI_API_KEY=your_openai_api_key_here
-   ```
+   - Set at least `OPENAI_API_KEY`, `JSON_SERVER_URL`, `VITE_API_URL`, and `VITE_SERVER_API_URL` (defaults in `.env.example` work with `npm run dev:all` on localhost).
 3. Run all services:
    ```bash
    npm run dev:all
@@ -44,11 +41,61 @@ StudySmart combines a **collaborative study dashboard** with a **crowdsourced no
 - JSON Server: `http://localhost:3001`
 - Node/AI Server: `http://localhost:3002`
 
-## Deployment Notes (Vercel + Render)
-- Frontend: deploy to **Vercel**
-- API services:
-  - JSON Server + Node AI server can be deployed on **Render**
-  - Set `OPENAI_API_KEY` in Render environment variables
+## Deployment (Vercel + JSON Server host)
+
+The Vite app and the **AI/upload API** can live on **one Vercel project**: the Express app in `api/index.js` handles `POST /api/notes/upload` and `POST /api/ai/explain` (see `vercel.json` rewrites). **JSON Server** should still run on a long-lived host (e.g. **Render**, Railway, Fly) with `db.json` and **CORS** enabled for your Vercel domain.
+
+### Vercel — Environment Variables
+
+Set these in the project **Settings → Environment Variables** (use the same values for *Production* and *Preview* where applicable). **Redeploy** after changes; `VITE_*` variables are applied at **build** time.
+
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `OPENAI_API_KEY` | Yes (for AI) | Summaries on upload + explain actions |
+| `OPENAI_MODEL` | No | Defaults to `gpt-4o-mini` |
+| `JSON_SERVER_URL` | Yes on Vercel | Public URL of JSON Server (no trailing slash). Serverless upload POSTs new notes here. |
+| `VITE_API_URL` | Yes | Same URL as JSON Server; baked into the SPA for all CRUD fetches. |
+| `VITE_SERVER_API_URL` | Yes | Use `/api` when the AI routes are on the same Vercel deployment. |
+
+Example:
+
+```env
+OPENAI_API_KEY=sk-...
+OPENAI_MODEL=gpt-4o-mini
+JSON_SERVER_URL=https://your-api.onrender.com
+VITE_API_URL=https://your-api.onrender.com
+VITE_SERVER_API_URL=/api
+```
+
+Smoke test after deploy: `GET https://studysmart-sandy.vercel.app/api/health` (production URL for this project).
+
+### Troubleshooting: `localhost:3001` / `ERR_CONNECTION_REFUSED` on Vercel
+
+The browser cannot reach **your computer’s** JSON Server. The built app must use a **public** API URL.
+
+1. Deploy **JSON Server** (same `db.json`) to Render, Railway, etc. Example base: `https://studysmart-api.onrender.com`.
+2. In **Vercel** → Project → **Settings** → **Environment Variables** (check **Production** and **Preview**):
+   - `VITE_API_URL` = `https://studysmart-api.onrender.com` (exactly your JSON Server URL, **no** `/notes`, **no** trailing slash)
+   - `JSON_SERVER_URL` = same value (for the `/api` serverless upload route)
+   - `VITE_SERVER_API_URL` = `/api`
+3. Click **Redeploy** so Vite rebuilds with `VITE_*` baked in.
+
+Until that is set, the SPA shows a yellow configuration banner on [studysmart-sandy.vercel.app](https://studysmart-sandy.vercel.app/).
+
+### JSON Server host (e.g. Render)
+
+- Start command similar to: `npx json-server --watch db.json --port $PORT --host 0.0.0.0 --middlewares ./cors.js` or use json-server’s `--cors` if acceptable for your threat model.
+- Allow the browser origin of your Vercel app so the SPA can call `VITE_API_URL` without CORS errors.
+
+### Local vs production — where env is read
+
+| Area | Variables |
+|------|-----------|
+| Browser (built app) | `VITE_API_URL`, `VITE_SERVER_API_URL` only |
+| `api/index.js` (Vercel or `npm run dev:server`) | `OPENAI_*`, `JSON_SERVER_URL` |
+| `npm run dev:api` (JSON Server) | (none required; use `--cors` for localhost) |
+
+See **`.env.example`** for a single-file checklist.
 
 # StudySmart
 
@@ -100,8 +147,8 @@ Data is in `db.json` and is exposed by JSON Server at `http://localhost:3001`:
 - `/whiteboards`
 
 ## Deployment (Vercel + Render)
-- Vercel: deploy the React app (frontend).
-- Render: deploy JSON Server using `db.json` so the app can fetch mock data.
+- **Vercel:** connect the GitHub repo; build output is the Vite app plus serverless `/api/*` (see the deployment section above).
+- **Render (or similar):** run JSON Server with `db.json` and set `JSON_SERVER_URL` / `VITE_API_URL` on Vercel to that public URL.
 
 ## Seed credentials (from `db.json`)
 - Email: `johndoe@gmail.com`

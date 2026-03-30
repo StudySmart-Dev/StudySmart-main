@@ -9,6 +9,7 @@ import {
   awardForUpvote,
   normalizeUser
 } from '../../achievements/achievementEngine.js';
+import { CSM_COURSES, topicForCourseCode, UI_SEED_REVISION } from '../../data/csmCourses.js';
 
 import '../../styles/dashboard.css';
 
@@ -93,21 +94,16 @@ export default function DashboardOverview() {
   const [meetings, setMeetings] = useState([]);
   const [groups, setGroups] = useState([]);
 
-  const [search, setSearch] = useState({ institution: '', courseCode: '', topic: '' });
   const [uploadOpen, setUploadOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadStatus, setUploadStatus] = useState({ type: '', message: '' });
   const [xpToast, setXpToast] = useState('');
 
-  const [newNote, setNewNote] = useState({
-    title: '',
-    institution: '',
+  const [uploadDraft, setUploadDraft] = useState({
     courseCode: '',
-    topic: '',
     content: ''
   });
   const [noteFile, setNoteFile] = useState(null);
-  const [noteFileType, setNoteFileType] = useState('pdf');
 
   const [previewNote, setPreviewNote] = useState(null);
   const [quizShowAnswers, setQuizShowAnswers] = useState(false);
@@ -155,6 +151,17 @@ export default function DashboardOverview() {
     };
   }, []);
 
+  function noteCardBlurb(n) {
+    const ai = (n.aiCardSummary || n.aiSummary || '').trim();
+    if (ai) {
+      const max = lowBandwidth ? 160 : 260;
+      return ai.length > max ? `${ai.slice(0, max)}…` : ai;
+    }
+    const c = (n.content || '').trim();
+    const max = lowBandwidth ? 140 : 220;
+    return c.length > max ? `${c.slice(0, max)}…` : c;
+  }
+
   const userById = useMemo(() => {
     const map = new Map();
     for (const u of users) map.set(u.id, u);
@@ -171,25 +178,13 @@ export default function DashboardOverview() {
     return credits;
   }, [notes]);
 
-  const filteredNotes = useMemo(() => {
-    const { institution, courseCode, topic } = search;
-    const inst = institution.trim().toLowerCase();
-    const cc = courseCode.trim().toLowerCase();
-    const top = topic.trim().toLowerCase();
-
-    return notes
-      .filter((n) => {
-        if (inst && !(n.institution || '').toLowerCase().includes(inst)) return false;
-        if (cc && !(n.courseCode || '').toLowerCase().includes(cc)) return false;
-        if (top && !(n.topic || '').toLowerCase().includes(top)) return false;
-        return true;
-      })
-      .sort((a, b) => {
-        const sa = Number(a.upvotes || 0) - Number(a.downvotes || 0);
-        const sb = Number(b.upvotes || 0) - Number(b.downvotes || 0);
-        return sb - sa;
-      });
-  }, [notes, search]);
+  const sortedNotes = useMemo(() => {
+    return [...notes].sort((a, b) => {
+      const sa = Number(a.upvotes || 0) - Number(a.downvotes || 0);
+      const sb = Number(b.upvotes || 0) - Number(b.downvotes || 0);
+      return sb - sa;
+    });
+  }, [notes]);
 
   useEffect(() => {
     if (!xpToast) return;
@@ -353,7 +348,14 @@ export default function DashboardOverview() {
           <div>
             <h3 className="ds-cardTitle">Note-Exchange Hub</h3>
             <p className="ds-cardSub ds-cardSubtle">
-              Upload notes, search by institution/course/topic, and vote to rank top resources.
+              Notes list by popularity. Upload: pick your course, optional text or a file—school and title come from your profile and AI.
+            </p>
+            <p
+              className="ds-cardSub ds-cardSubtle"
+              style={{ fontSize: 10, opacity: 0.45, marginTop: 6, marginBottom: 0 }}
+              title="If this line is missing or shows old wording above, your browser or host is serving an older build."
+            >
+              UI revision: {UI_SEED_REVISION}
             </p>
           </div>
           <button
@@ -366,36 +368,6 @@ export default function DashboardOverview() {
           >
             {uploadOpen ? 'Hide upload' : 'Upload note'}
           </button>
-        </div>
-
-        <div className="ds-notesToolbar" aria-label="Note search filters">
-          <div className="ds-field">
-            <label>Institution</label>
-            <input
-              className="ds-input"
-              value={search.institution}
-              onChange={(e) => setSearch((p) => ({ ...p, institution: e.target.value }))}
-              placeholder="e.g., AmaliTech"
-            />
-          </div>
-          <div className="ds-field">
-            <label>Course Code</label>
-            <input
-              className="ds-input"
-              value={search.courseCode}
-              onChange={(e) => setSearch((p) => ({ ...p, courseCode: e.target.value }))}
-              placeholder="e.g., CS101"
-            />
-          </div>
-          <div className="ds-field">
-            <label>Topic</label>
-            <input
-              className="ds-input"
-              value={search.topic}
-              onChange={(e) => setSearch((p) => ({ ...p, topic: e.target.value }))}
-              placeholder="e.g., Data Structures"
-            />
-          </div>
         </div>
 
         {!uploadOpen && uploadStatus.message ? (
@@ -432,56 +404,38 @@ export default function DashboardOverview() {
 
         {uploadOpen ? (
           <div style={{ marginBottom: 14 }}>
-            <div className="ds-kvGrid">
-              <label className="ds-field">
-                <span style={{ fontSize: 11.5, fontWeight: 950, opacity: 0.7 }}>Title</span>
-                <input
-                  className="ds-input"
-                  value={newNote.title}
-                  onChange={(e) => setNewNote((p) => ({ ...p, title: e.target.value }))}
-                  placeholder="Enter note title"
-                />
-              </label>
-              <label className="ds-field">
-                <span style={{ fontSize: 11.5, fontWeight: 950, opacity: 0.7 }}>Institution</span>
-                <input
-                  className="ds-input"
-                  value={newNote.institution}
-                  onChange={(e) => setNewNote((p) => ({ ...p, institution: e.target.value }))}
-                  placeholder="e.g., AmaliTech"
-                />
-              </label>
-            </div>
-            <div style={{ height: 10 }} />
-            <div className="ds-kvGrid">
-              <label className="ds-field">
-                <span style={{ fontSize: 11.5, fontWeight: 950, opacity: 0.7 }}>Course Code</span>
-                <input
-                  className="ds-input"
-                  value={newNote.courseCode}
-                  onChange={(e) => setNewNote((p) => ({ ...p, courseCode: e.target.value }))}
-                  placeholder="e.g., CS101"
-                />
-              </label>
-              <label className="ds-field">
-                <span style={{ fontSize: 11.5, fontWeight: 950, opacity: 0.7 }}>Topic</span>
-                <input
-                  className="ds-input"
-                  value={newNote.topic}
-                  onChange={(e) => setNewNote((p) => ({ ...p, topic: e.target.value }))}
-                  placeholder="e.g., Data Structures"
-                />
-              </label>
-            </div>
+            {user?.institution ? (
+              <div style={{ fontSize: 12.5, fontWeight: 850, opacity: 0.65, marginBottom: 10 }}>
+                Institution: <strong style={{ opacity: 0.95 }}>{user.institution}</strong> (from your profile)
+              </div>
+            ) : null}
+
+            <label className="ds-field">
+              <span style={{ fontSize: 11.5, fontWeight: 950, opacity: 0.7 }}>Course</span>
+              <select
+                className="ds-input"
+                value={uploadDraft.courseCode}
+                onChange={(e) => setUploadDraft((p) => ({ ...p, courseCode: e.target.value }))}
+              >
+                <option value="">Choose a course…</option>
+                {CSM_COURSES.map((c) => (
+                  <option key={c.code} value={c.code}>
+                    {c.label}
+                  </option>
+                ))}
+              </select>
+            </label>
 
             <div style={{ height: 10 }} />
             <label className="ds-field">
-              <span style={{ fontSize: 11.5, fontWeight: 950, opacity: 0.7 }}>Content</span>
+              <span style={{ fontSize: 11.5, fontWeight: 950, opacity: 0.7 }}>
+                Optional: type or paste notes
+              </span>
               <textarea
                 className="ds-textarea"
                 style={{
                   width: '100%',
-                  minHeight: 120,
+                  minHeight: 100,
                   borderRadius: 18,
                   border: '1px solid rgba(17, 17, 26, 0.14)',
                   background: '#fff',
@@ -491,38 +445,24 @@ export default function DashboardOverview() {
                   outline: 'none',
                   resize: 'vertical'
                 }}
-                value={newNote.content}
-                onChange={(e) => setNewNote((p) => ({ ...p, content: e.target.value }))}
-                placeholder="Paste your note text here"
+                value={uploadDraft.content}
+                onChange={(e) => setUploadDraft((p) => ({ ...p, content: e.target.value }))}
+                placeholder="Or leave empty if you only upload a file below."
               />
             </label>
 
             <div style={{ height: 10 }} />
-            <div className="ds-kvGrid">
-              <label className="ds-field">
-                <span style={{ fontSize: 11.5, fontWeight: 950, opacity: 0.7 }}>File Type</span>
-                <select
-                  className="ds-input"
-                  value={noteFileType}
-                  onChange={(e) => setNoteFileType(e.target.value)}
-                >
-                  <option value="pdf">PDF</option>
-                  <option value="docx">Word (DOCX)</option>
-                  <option value="pptx">PowerPoint (PPTX)</option>
-                  <option value="txt">Text (TXT/MD)</option>
-                </select>
-              </label>
-
-              <label className="ds-field">
-                <span style={{ fontSize: 11.5, fontWeight: 950, opacity: 0.7 }}>Upload file (optional)</span>
-                <input
-                  className="ds-input"
-                  type="file"
-                  accept=".pdf,.docx,.pptx,.txt,.md,.json"
-                  onChange={(e) => setNoteFile(e.target.files?.[0] || null)}
-                />
-              </label>
-            </div>
+            <label className="ds-field">
+              <span style={{ fontSize: 11.5, fontWeight: 950, opacity: 0.7 }}>
+                Upload file (PDF, Word, PowerPoint, image, or text)
+              </span>
+              <input
+                className="ds-input"
+                type="file"
+                accept=".pdf,.docx,.pptx,.txt,.md,.json,.png,.jpg,.jpeg,.webp,.gif"
+                onChange={(e) => setNoteFile(e.target.files?.[0] || null)}
+              />
+            </label>
 
             <div style={{ height: 10 }} />
             <button
@@ -532,62 +472,43 @@ export default function DashboardOverview() {
                 if (!user) return;
                 setUploadStatus({ type: '', message: '' });
 
-                const title = newNote.title.trim();
-                const content = newNote.content.trim();
-                const institution = newNote.institution.trim();
-                const courseCode = newNote.courseCode.trim();
-                const topic = newNote.topic.trim();
+                const content = uploadDraft.content.trim();
+                const courseCode = uploadDraft.courseCode.trim();
+                const topic = topicForCourseCode(courseCode);
+                const institution = (user.institution || '').trim();
 
-                // Basic validation to prevent empty/low-quality uploads
-                if (!title || title.length < 3) {
-                  setUploadStatus({ type: 'error', message: 'Please enter a title (min 3 characters).' });
+                if (!institution) {
+                  setUploadStatus({
+                    type: 'error',
+                    message: 'Your account needs a school on file before you can publish.'
+                  });
                   return;
                 }
-                if (!content || content.length < 20) {
-                  if (!noteFile) {
-                    setUploadStatus({
-                      type: 'error',
-                      message: 'Please provide note content (min 20 chars) or upload a supported file.'
-                    });
-                    return;
-                  }
+                if (!courseCode || !topic) {
+                  setUploadStatus({ type: 'error', message: 'Choose a course from the list.' });
+                  return;
+                }
+                if (!content && !noteFile) {
+                  setUploadStatus({ type: 'error', message: 'Add some text or choose a file to upload.' });
+                  return;
                 }
 
                 if (noteFile) {
                   const ext = (noteFile.name.split('.').pop() || '').toLowerCase();
-                  const allowed = ['pdf', 'docx', 'pptx', 'txt', 'md', 'json'];
+                  const allowed = ['pdf', 'docx', 'pptx', 'txt', 'md', 'json', 'png', 'jpg', 'jpeg', 'webp', 'gif'];
                   if (!allowed.includes(ext)) {
                     setUploadStatus({
                       type: 'error',
-                      message: 'Unsupported file type. Use PDF, DOCX, PPTX, TXT, MD, or JSON.'
+                      message: 'Unsupported file type.'
                     });
                     return;
                   }
-                  if (noteFileType !== ext && !(noteFileType === 'txt' && ['txt', 'md', 'json'].includes(ext))) {
-                    setUploadStatus({
-                      type: 'error',
-                      message: `Selected type (${noteFileType}) does not match file extension (.${ext}).`
-                    });
-                    return;
-                  }
-                }
-
-                if (!content && !noteFile) {
-                  setUploadStatus({ type: 'error', message: 'Add typed content or upload a file.' });
-                  return;
-                }
-                if (!institution || !courseCode || !topic) {
-                  setUploadStatus({
-                    type: 'error',
-                    message: 'Please fill Institution, Course Code, and Topic for better discovery.'
-                  });
-                  return;
                 }
 
                 try {
                   setUploading(true);
                   const fd = new FormData();
-                  fd.append('title', title);
+                  fd.append('title', '');
                   fd.append('institution', institution);
                   fd.append('courseCode', courseCode);
                   fd.append('topic', topic);
@@ -597,14 +518,12 @@ export default function DashboardOverview() {
 
                   const { note: created } = await api.uploadNoteWithFile(fd);
                   setNotes((prev) => [created, ...prev]);
-                  setNewNote({ title: '', institution: '', courseCode: '', topic: '', content: '' });
+                  setUploadDraft({ courseCode: '', content: '' });
                   setNoteFile(null);
-                  setNoteFileType('pdf');
                   setUploadOpen(false);
-                  setUploadStatus({ type: 'success', message: 'Note uploaded successfully.' });
+                  setUploadStatus({ type: 'success', message: 'Note published.' });
                   setPreviewNote(created);
 
-                  // XP for note upload
                   const { user: nextUser, earned } = awardForNoteUpload({ user: normalizeUser(user), xp: 15 });
                   await persistUserUpdated(nextUser, earned);
                 } catch (err) {
@@ -632,7 +551,7 @@ export default function DashboardOverview() {
           </div>
         ) : null}
 
-        {filteredNotes.length === 0 ? (
+        {sortedNotes.length === 0 ? (
           <div
             style={{
               borderRadius: 18,
@@ -644,20 +563,12 @@ export default function DashboardOverview() {
             aria-label="No notes found"
           >
             <div style={{ fontWeight: 980, fontSize: 16, marginBottom: 6 }}>
-              No notes match your search.
+              No notes yet.
             </div>
             <div style={{ fontWeight: 850, opacity: 0.65, fontSize: 13, lineHeight: 1.5 }}>
-              Try clearing filters or uploading a new note to start building your study library.
+              Publish a note to see it here. Course code and topic are only asked in the upload form.
             </div>
             <div style={{ marginTop: 14, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-              <button
-                className="ds-secondaryBtn"
-                type="button"
-                style={{ width: 'auto', padding: '10px 14px' }}
-                onClick={() => setSearch({ institution: '', courseCode: '', topic: '' })}
-              >
-                Clear filters
-              </button>
               <button
                 className="ds-primaryBtn"
                 type="button"
@@ -670,7 +581,7 @@ export default function DashboardOverview() {
           </div>
         ) : (
           <div className="ds-notesGrid" aria-label="Notes list">
-            {filteredNotes.slice(0, 9).map((n) => {
+            {sortedNotes.slice(0, 9).map((n) => {
             const author = userById.get(n.authorId);
             const myVote = (n.votes || []).find((v) => Number(v.userId) === Number(user?.id))?.value || 0;
             const authorIsTop = topCredits.has(n.authorId);
@@ -689,10 +600,12 @@ export default function DashboardOverview() {
                   By {author?.name || 'Student'}
                 </div>
 
-                <div className="ds-notePreview">
-                  {lowBandwidth
-                    ? n.content.slice(0, 180) + (n.content.length > 180 ? '...' : '')
-                    : n.content.slice(0, 260) + (n.content.length > 260 ? '...' : '')}
+                <div className="ds-notePreview" style={{ lineHeight: 1.45 }}>
+                  <span style={{ fontSize: 11, fontWeight: 950, opacity: 0.5, textTransform: 'uppercase', letterSpacing: 0.04 }}>
+                    Summary
+                  </span>
+                  <br />
+                  {noteCardBlurb(n)}
                 </div>
 
                 <div className="ds-noteActions">
@@ -763,9 +676,28 @@ export default function DashboardOverview() {
         >
           <div style={{ padding: 6 }}>
             <div style={{ fontWeight: 980, fontSize: 18, marginBottom: 6 }}>{previewNote.title}</div>
-            <div style={{ fontWeight: 900, opacity: 0.65, fontSize: 13, marginBottom: 10 }}>
+            <div style={{ fontWeight: 900, opacity: 0.65, fontSize: 13, marginBottom: 12 }}>
               {previewNote.institution} • {previewNote.courseCode} • {previewNote.topic}
             </div>
+
+            {smartTools ? (
+              <div
+                style={{
+                  marginBottom: 14,
+                  border: '1px solid rgba(17, 17, 26, 0.08)',
+                  borderRadius: 18,
+                  padding: 14,
+                  background: 'rgba(255,255,255,0.92)'
+                }}
+              >
+                <div style={{ fontWeight: 980, marginBottom: 8, fontSize: 14 }}>AI summary</div>
+                <div style={{ fontWeight: 850, opacity: 0.8, lineHeight: 1.45, fontSize: 13, whiteSpace: 'pre-wrap' }}>
+                  {smartTools.summary}
+                </div>
+              </div>
+            ) : null}
+
+            <div style={{ fontWeight: 980, fontSize: 14, marginBottom: 8 }}>Full note</div>
             <div
               style={{
                 whiteSpace: 'pre-wrap',
@@ -775,26 +707,16 @@ export default function DashboardOverview() {
                 border: '1px solid rgba(17, 17, 26, 0.08)',
                 borderRadius: 18,
                 padding: 12,
-                background: 'rgba(250,250,255,0.65)'
+                background: 'rgba(250,250,255,0.65)',
+                maxHeight: 'min(52vh, 420px)',
+                overflow: 'auto'
               }}
             >
               {previewNote.content}
             </div>
 
             {smartTools ? (
-              <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: lowBandwidth ? '1fr' : '1fr 1fr', gap: 12 }}>
-                <div
-                  style={{
-                    border: '1px solid rgba(17, 17, 26, 0.08)',
-                    borderRadius: 18,
-                    padding: 14,
-                    background: 'rgba(255,255,255,0.88)'
-                  }}
-                >
-                  <div style={{ fontWeight: 980, marginBottom: 8, fontSize: 14 }}>AI Summary</div>
-                  <div style={{ fontWeight: 850, opacity: 0.75, lineHeight: 1.45, fontSize: 13 }}>{smartTools.summary}</div>
-                </div>
-
+              <div style={{ marginTop: 14 }}>
                 <div
                   style={{
                     border: '1px solid rgba(17, 17, 26, 0.08)',

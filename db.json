@@ -5,16 +5,17 @@
       "name": "John Doe",
       "email": "johndoe@gmail.com",
       "password": "password",
-      "course": "cs",
+      "institution": "KNUST",
+      "course": "CSM 387",
       "level": "ug",
       "learningStyle": "Visual",
       "availability": "Evenings",
-      "xp": 32,
+      "xp": 58,
       "rankTier": 1,
       "upvoteCount": 0,
       "downvoteCount": 0,
       "notesCreatedCount": 0,
-      "joinedRoomsCount": 4,
+      "joinedRoomsCount": 5,
       "chatMessagesCount": 0,
       "boardStrokesCount": 0,
       "badges": [
@@ -26,38 +27,160 @@
     },
     {
       "id": 2,
-      "name": "Aisha Khan",
-      "email": "aisha@gmail.com",
+      "name": "Emmanuel Banahene",
+      "email": "emmanuel.banahene@mail.com",
       "password": "password",
-      "course": "ee",
-      "level": "grad",
+      "institution": "KNUST",
+      "course": "CSM 285",
+      "level": "ug",
       "learningStyle": "Verbal",
       "availability": "Mornings",
-      "xp": 4,
+      "xp": 42,
       "rankTier": 1,
       "upvoteCount": 2,
       "downvoteCount": 0,
       "notesCreatedCount": 0,
-      "joinedRoomsCount": 0,
+      "joinedRoomsCount": 2,
       "chatMessagesCount": 0,
       "boardStrokesCount": 0,
       "badges": []
     },
     {
       "id": 3,
-      "name": "Mateo Silva",
-      "email": "mateo@gmail.com",
+      "name": "Aziah Awinebono",
+      "email": "aziah.awinebono@mail.com",
       "password": "password",
-      "course": "business",
+      "institution": "KNUST",
+      "course": "CSM 393",
       "level": "ug",
       "learningStyle": "Visual",
       "availability": "Afternoons",
-      "xp": 4,
+      "xp": 38,
       "rankTier": 1,
-      "upvoteCount": 2,
+      "upvoteCount": 1,
       "downvoteCount": 0,
       "notesCreatedCount": 0,
-      "joinedRoomsCount": 0,
+      "joinedRoomsCount": 3,
+      "chatMessagesCount": 0,
+      "boardStrokesCount": 0,
+      "badges": []
+    },
+    {
+      "id": 4,
+      "name": "Asigbey Jude",
+      "email": "asigbey.jude@mail.com",
+      "password": "password",
+      "institution": "KNUST",
+      "course": "CSM 365",
+      "level": "ug",
+      "learningStyle": "Verbal",
+      "availability": "Evenings",
+      "xp": 35,
+      "rankTier": 1,
+      "upvoteCount": 0,
+      "downvoteCount": 0,
+      "notesCreatedCount": 0,
+      "joinedRoomsCount": 2,
+      "chatMessagesCount": 0,
+      "boardStrokesCount": 0,
+      "badges": []
+    },
+    {
+      "id": 5,
+      "name": "Kwame Bediakoh",
+      "email": "kwame.bediakoh@mail.com",
+      "password": "password",
+      "institution": "KNUST",
+      "course": "CSM 357",
+      "level": "ug",
+      "learningStyle": "Visual",
+      "availability": "Mornings",
+      "xp": 28,
+      "rankTier": 1,
+      "upvoteCount": 1,
+      "downvoteCount": 0,
+      "notesCreatedCount": 0,
+      "joinedRoomsCount": 2,
+      "chatMessagesCount": 0,
+      "boardStrokesCount": 0,
+      "badges": []
+    },
+    {
+      "id": 6,
+      "name": "Nana Kobena",
+      "email": "nana.kobena@mail.com",
+      "password": "password",
+      "institution": "KNUST",
+      "course": "CSM 387",
+      "level": "ug",
+      "learningStyle": "Verbal",
+      "availability": "Afternoons",
+      "xp": 24,
+      "rankTier": 1,
+      "upvoteCount": 0,
+      "downvoteCount": 0,
+      "notesCreatedCount": 0,
+      "joinedRoomsCount": 2,
+      "chatMessagesCount": 0,
+      "boardStrokesCount": 0,
+      "badges": []
+    },
+    {
+      "id": 7,
+      "name": "Akuoko Seth",
+      "email": "akuoko.seth@mail.com",
+      "password": "password",
+      "institution": "KNUST",
+      "course": "CSM 285",
+      "level": "ug",
+      "learningStyle": "Visual",
+      "availability": "Evenings",
+      "xp": 18,
+      "rankTier": 1,
+      "upvoteCount": 0,
+      "downvoteCount": 0,
+      "notesCreatedCount": 0,
+      "joinedRoomsCount": 1,
+      "chatMessagesCount": 0,
+      "boardStrokesCount": 0,
+      "badges": []
+    },
+    {
+      "id": 8,
+      "name": "Amekudzi Kingsford",
+      "email": "amekudzi.kingsford@mail.com",
+      "password": "password",
+      "institution": "KNUST",
+      "course": "CSM 393",
+      "level": "ug",
+      "learningStyle": "Verbal",
+      "availability": "Mornings",
+      "xp": 14,
+      "rankTier": 1,
+      "upvoteCount": 0,
+      "downvoteCount": 0,
+      "notesCreatedCount": 0,
+      "joinedRoomsCount": 1,
+      "chatMessagesCount": 0,
+      "boardStrokesCount": 0,
+      "badges": []
+    },
+    {
+      "id": 9,
+      "name": "Patrick Asare",
+      "email": "patrick.asare@mail.com",
+      "password": "password",
+      "institution": "KNUST",
+      "course": "CSM 365",
+      "level": "ug",
+      "learningStyle": "Visual",
+      "availability": "Afternoons",
+      "xp": 10,
+      "rankTier": 1,
+      "upvoteCount": 0,
+      "downvoteCount": 0,
+      "notesCreatedCount": 0,
+      "joinedRoomsCount": 1,
       "chatMessagesCount": 0,
       "boardStrokesCount": 0,
       "badges": []
@@ -66,173 +189,207 @@
   "groups": [
     {
       "id": 101,
-      "institution": "AmaliTech",
-      "courseCode": "CS101",
-      "topic": "Data Structures",
-      "description": "Weekly problem-solving and concept refresh for CS101.",
-      "learningStyles": [
-        "Visual",
-        "Verbal"
-      ],
-      "availability": [
-        "Mornings",
-        "Evenings"
-      ],
-      "members": [
-        1
-      ]
+      "institution": "KNUST",
+      "courseCode": "CSM 285",
+      "topic": "Accounting I",
+      "description": "ACCOUNTING I (CSM 285)—problem sets, definitions, and exam prep.",
+      "learningStyles": ["Visual", "Verbal"],
+      "availability": ["Mornings", "Evenings"],
+      "members": [1, 2, 7]
     },
     {
       "id": 102,
-      "institution": "AmaliTech",
-      "courseCode": "EE201",
-      "topic": "Circuits",
-      "description": "Circuit basics, practice sets, and quick doubt sessions.",
-      "learningStyles": [
-        "Visual"
-      ],
-      "availability": [
-        "Afternoons"
-      ],
-      "members": [
-        2,
-        1
-      ]
+      "institution": "KNUST",
+      "courseCode": "CSM 387",
+      "topic": "Data Structures I",
+      "description": "DATA STRUCTURES I (CSM 387)—algorithms, complexity, and practice.",
+      "learningStyles": ["Visual"],
+      "availability": ["Evenings"],
+      "members": [1, 5, 6, 8]
     },
     {
       "id": 103,
-      "institution": "CampusBridge",
-      "courseCode": "BUS330",
-      "topic": "Marketing Strategy",
-      "description": "Case-study based discussions and structured note reviews.",
-      "learningStyles": [
-        "Verbal"
-      ],
-      "availability": [
-        "Evenings"
-      ],
-      "members": [
-        3
-      ]
+      "institution": "KNUST",
+      "courseCode": "CSM 393",
+      "topic": "Operations Research I",
+      "description": "OPERATIONS RESEARCH I (CSM 393)—LP, simplex, and modelling.",
+      "learningStyles": ["Verbal"],
+      "availability": ["Afternoons"],
+      "members": [1, 3, 8, 9]
+    },
+    {
+      "id": 104,
+      "institution": "KNUST",
+      "courseCode": "CSM 365",
+      "topic": "Introduction to Artificial Intelligence",
+      "description": "INTRODUCTION TO ARTIFICIAL INTELLIGENCE (CSM 365)—search, logic, ML intro.",
+      "learningStyles": ["Visual", "Verbal"],
+      "availability": ["Mornings", "Afternoons"],
+      "members": [1, 4, 6, 9]
+    },
+    {
+      "id": 105,
+      "institution": "KNUST",
+      "courseCode": "CSM 357",
+      "topic": "Human Computer Interaction",
+      "description": "HUMAN COMPUTER INTERACTION (CSM 357)—usability, design, evaluation.",
+      "learningStyles": ["Visual"],
+      "availability": ["Evenings"],
+      "members": [1, 3, 5, 7]
     }
   ],
   "notes": [
     {
       "id": 201,
-      "title": "CS101: Trees & Traversals Cheat Sheet",
-      "institution": "AmaliTech",
-      "courseCode": "CS101",
-      "topic": "Data Structures",
-      "content": "Preorder: Root, Left, Right. Inorder: Left, Root, Right. Postorder: Left, Right, Root.\n\nPractice: derive traversal outputs from given tree structure.",
+      "title": "CSM 387: Trees & traversals quick reference",
+      "institution": "KNUST",
+      "courseCode": "CSM 387",
+      "topic": "Data Structures I",
+      "aiCardSummary": "Traversal orders (preorder, inorder, postorder) and short practice prompts.",
+      "content": "Preorder: Root, Left, Right. Inorder: Left, Root, Right. Postorder: Left, Right, Root.\n\nSketch a small tree and write all three traversal outputs.",
       "authorId": 1,
-      "upvotes": 12,
+      "upvotes": 14,
       "downvotes": 1,
       "votes": [
-        {
-          "userId": 1,
-          "value": 1
-        },
-        {
-          "userId": 2,
-          "value": 1
-        },
-        {
-          "userId": 3,
-          "value": 1
-        }
+        { "userId": 1, "value": 1 },
+        { "userId": 2, "value": 1 },
+        { "userId": 3, "value": 1 },
+        { "userId": 4, "value": 1 },
+        { "userId": 5, "value": 1 },
+        { "userId": 6, "value": 1 },
+        { "userId": 7, "value": 1 },
+        { "userId": 8, "value": 1 },
+        { "userId": 9, "value": -1 }
       ],
       "createdAt": "2026-03-18T10:00:00.000Z"
     },
     {
       "id": 202,
-      "title": "EE201: KCL/KVL Quick Rules",
-      "institution": "AmaliTech",
-      "courseCode": "EE201",
-      "topic": "Circuits",
-      "content": "KCL: Sum of currents entering node equals sum leaving.\nKVL: Sum of voltage drops equals supply voltage (around a loop).",
+      "title": "CSM 285: Debits, credits, and the accounting equation",
+      "institution": "KNUST",
+      "courseCode": "CSM 285",
+      "topic": "Accounting I",
+      "aiCardSummary": "Assets = Liabilities + Equity; how debits and credits move accounts.",
+      "content": "Equation: Assets = Liabilities + Owner's Equity.\nDebits increase assets and expenses; credits increase liabilities, equity, and revenue (with normal balances in mind).",
       "authorId": 2,
       "upvotes": 8,
       "downvotes": 0,
       "votes": [
-        {
-          "userId": 2,
-          "value": 1
-        },
-        {
-          "userId": 1,
-          "value": 1
-        }
+        { "userId": 2, "value": 1 },
+        { "userId": 1, "value": 1 },
+        { "userId": 7, "value": 1 },
+        { "userId": 3, "value": 1 },
+        { "userId": 5, "value": 1 },
+        { "userId": 8, "value": 1 },
+        { "userId": 4, "value": 1 },
+        { "userId": 6, "value": 1 }
       ],
       "createdAt": "2026-03-17T10:00:00.000Z"
     },
     {
       "id": 203,
-      "title": "BUS330: Case Study Framework (3-Step)",
-      "institution": "CampusBridge",
-      "courseCode": "BUS330",
-      "topic": "Marketing Strategy",
-      "content": "1) Situation analysis: market, competitors, customer segments.\n2) Strategy: positioning + channel choices.\n3) Execution + metrics: KPIs and timeline.",
+      "title": "CSM 393: Formulating a linear program",
+      "institution": "KNUST",
+      "courseCode": "CSM 393",
+      "topic": "Operations Research I",
+      "aiCardSummary": "Decision vars, objective (max/min), and constraints checklist.",
+      "content": "1) Define decision variables.\n2) Write objective: maximize profit or minimize cost.\n3) Add constraints: capacity, demand, non-negativity.\n4) Standard form before simplex if required.",
       "authorId": 3,
-      "upvotes": 1,
-      "downvotes": 1,
+      "upvotes": 7,
+      "downvotes": 0,
       "votes": [
-        {
-          "userId": 3,
-          "value": 1
-        },
-        {
-          "userId": 1,
-          "value": -1
-        }
+        { "userId": 3, "value": 1 },
+        { "userId": 1, "value": 1 },
+        { "userId": 8, "value": 1 },
+        { "userId": 9, "value": 1 },
+        { "userId": 2, "value": 1 },
+        { "userId": 4, "value": 1 },
+        { "userId": 6, "value": 1 }
       ],
       "createdAt": "2026-03-19T10:00:00.000Z"
+    },
+    {
+      "id": 204,
+      "title": "CSM 365: Uninformed search (BFS vs DFS)",
+      "institution": "KNUST",
+      "courseCode": "CSM 365",
+      "topic": "Introduction to Artificial Intelligence",
+      "aiCardSummary": "When BFS is optimal with uniform cost; space/time trade-offs with DFS.",
+      "content": "BFS: explores layer by layer; complete and optimal for unweighted graphs; high memory.\nDFS: goes deep first; low memory; may not find shortest path.",
+      "authorId": 4,
+      "upvotes": 11,
+      "downvotes": 1,
+      "votes": [
+        { "userId": 4, "value": 1 },
+        { "userId": 1, "value": 1 },
+        { "userId": 9, "value": 1 },
+        { "userId": 6, "value": 1 },
+        { "userId": 3, "value": 1 },
+        { "userId": 5, "value": 1 },
+        { "userId": 7, "value": 1 },
+        { "userId": 2, "value": 1 },
+        { "userId": 8, "value": -1 }
+      ],
+      "createdAt": "2026-03-16T10:00:00.000Z"
+    },
+    {
+      "id": 205,
+      "title": "CSM 357: Nielsen heuristics — one-line reminders",
+      "institution": "KNUST",
+      "courseCode": "CSM 357",
+      "topic": "Human Computer Interaction",
+      "aiCardSummary": "Ten usability heuristics in compact form for design reviews.",
+      "content": "Visibility of system status; match real world; user control; consistency; error prevention; recognition over recall; flexibility; minimal design; recover from errors; help documentation.",
+      "authorId": 5,
+      "upvotes": 5,
+      "downvotes": 1,
+      "votes": [
+        { "userId": 5, "value": 1 },
+        { "userId": 1, "value": 1 },
+        { "userId": 3, "value": 1 },
+        { "userId": 7, "value": 1 },
+        { "userId": 2, "value": 1 },
+        { "userId": 4, "value": -1 }
+      ],
+      "createdAt": "2026-03-15T10:00:00.000Z"
     }
   ],
   "meetings": [
     {
       "id": 301,
       "type": "scheduled",
-      "title": "CS101 Weekly Discussions",
-      "groupId": 101,
+      "title": "CSM 387 — weekly structures clinic",
+      "groupId": 102,
       "scheduledAt": "2026-03-21T18:00:00.000Z",
       "durationMinutes": 60,
-      "participants": [
-        1,
-        2
-      ]
+      "participants": [1, 5, 6]
     },
     {
       "id": 302,
       "type": "scheduled",
-      "title": "EE201 Circuits Doubt Clearing",
-      "groupId": 102,
+      "title": "CSM 285 — accounting problem hour",
+      "groupId": 101,
       "scheduledAt": "2026-03-22T15:00:00.000Z",
       "durationMinutes": 45,
-      "participants": [
-        2
-      ]
+      "participants": [2, 7, 1]
     },
     {
       "id": 303,
       "type": "dropin",
-      "title": "Drop-in: 15-min Quick Questions",
-      "groupId": 101,
+      "title": "Drop-in: quick OR modelling questions",
+      "groupId": 103,
       "scheduledAt": "2026-03-20T16:30:00.000Z",
       "durationMinutes": 15,
-      "participants": [
-        1
-      ]
+      "participants": [1, 3]
     },
     {
+      "id": 304,
       "type": "scheduled",
-      "title": "Study session: EE201 • Circuits",
-      "groupId": 102,
-      "scheduledAt": "2026-03-20T22:41:42.480Z",
+      "title": "Study session: CSM 365 • search & games",
+      "groupId": 104,
+      "scheduledAt": "2026-03-23T19:00:00.000Z",
       "durationMinutes": 60,
-      "participants": [
-        1
-      ],
-      "id": 304
+      "participants": [4, 9, 1]
     }
   ],
   "meetingMessages": [],
