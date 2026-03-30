@@ -20,10 +20,10 @@ export default function DashboardLeaderboard() {
   useEffect(() => {
     let alive = true;
     async function load() {
-      const [usersRes, notesRes] = await Promise.all([api.getAll('users'), api.getAll('notes')]);
+      const settled = await Promise.allSettled([api.getAll('users'), api.getAll('notes')]);
       if (!alive) return;
-      setUsers(usersRes);
-      setNotes(notesRes);
+      if (settled[0].status === 'fulfilled') setUsers(settled[0].value);
+      if (settled[1].status === 'fulfilled') setNotes(settled[1].value);
     }
     load().catch(() => {});
     return () => {

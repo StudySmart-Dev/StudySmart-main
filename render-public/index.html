@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>StudySmart JSON API (Render)</title>
+    <style>
+      body { font-family: system-ui, sans-serif; max-width: 640px; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+      h1 { font-size: 1.25rem; }
+      ul { padding-left: 1.2rem; }
+      a { color: #0369a1; }
+      code { background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 4px; }
+    </style>
+  </head>
+  <body>
+    <h1>StudySmart mock API</h1>
+    <p>All resources come from <code>db.json</code> in your Git repo. Open any link (JSON):</p>
+    <ul>
+      <li><a href="/users">/users</a></li>
+      <li><a href="/groups">/groups</a></li>
+      <li><a href="/notes">/notes</a></li>
+      <li><a href="/meetings">/meetings</a></li>
+      <li><a href="/meetingMessages">/meetingMessages</a></li>
+      <li><a href="/whiteboards">/whiteboards</a></li>
+      <li><a href="/xpEvents">/xpEvents</a></li>
+    </ul>
+    <p>Vercel env: set <code>VITE_API_URL</code> and <code>JSON_SERVER_URL</code> to this host (no trailing slash).</p>
+  </body>
+</html>

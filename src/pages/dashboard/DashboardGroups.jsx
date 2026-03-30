@@ -29,10 +29,10 @@ export default function DashboardGroups() {
   useEffect(() => {
     let alive = true;
     async function load() {
-      const [resGroups, resNotes] = await Promise.all([api.getAll('groups'), api.getAll('notes')]);
+      const settled = await Promise.allSettled([api.getAll('groups'), api.getAll('notes')]);
       if (!alive) return;
-      setGroups(resGroups);
-      setNotes(resNotes);
+      if (settled[0].status === 'fulfilled') setGroups(settled[0].value);
+      if (settled[1].status === 'fulfilled') setNotes(settled[1].value);
     }
     load().catch(() => {});
     return () => {

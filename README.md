@@ -84,7 +84,9 @@ Until that is set, the SPA shows a yellow configuration banner on [studysmart-sa
 
 ### JSON Server host (e.g. Render)
 
-- Start command similar to: `npx json-server --watch db.json --port $PORT --host 0.0.0.0 --middlewares ./cors.js` or use json-server’s `--cors` if acceptable for your threat model.
+- This repo includes **`render.yaml`** (Blueprint) and **`db.json`** in Git so every deploy has **users, groups, notes, meetings, meetingMessages, whiteboards, xpEvents**. The build runs `scripts/verify-db-for-render.mjs` to fail fast if a collection is missing.
+- Opening the service root **`/`** shows an HTML index with links to all JSON routes (from `render-public/`).
+- Start command similar to: `npx json-server --watch db.json --port $PORT --host 0.0.0.0 --cors` or use json-server’s `--cors` if acceptable for your threat model.
 - Allow the browser origin of your Vercel app so the SPA can call `VITE_API_URL` without CORS errors.
 
 ### Local vs production — where env is read

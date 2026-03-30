@@ -16,10 +16,10 @@ export default function DashboardSessions() {
   useEffect(() => {
     let alive = true;
     async function load() {
-      const [meetingsRes, groupsRes] = await Promise.all([api.getAll('meetings'), api.getAll('groups')]);
+      const settled = await Promise.allSettled([api.getAll('meetings'), api.getAll('groups')]);
       if (!alive) return;
-      setMeetings(meetingsRes);
-      setGroups(groupsRes);
+      if (settled[0].status === 'fulfilled') setMeetings(settled[0].value);
+      if (settled[1].status === 'fulfilled') setGroups(settled[1].value);
     }
     load().catch(() => {});
     return () => {

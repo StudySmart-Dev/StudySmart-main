@@ -131,17 +131,18 @@ export default function DashboardOverview() {
   useEffect(() => {
     let alive = true;
     async function load() {
-      const [notesRes, usersRes, meetingsRes, groupsRes] = await Promise.all([
+      const settled = await Promise.allSettled([
         api.getAll('notes'),
         api.getAll('users'),
         api.getAll('meetings'),
         api.getAll('groups')
       ]);
       if (!alive) return;
-      setNotes(notesRes);
-      setUsers(usersRes);
-      setMeetings(meetingsRes);
-      setGroups(groupsRes);
+      const [notesRes, usersRes, meetingsRes, groupsRes] = settled;
+      if (notesRes.status === 'fulfilled') setNotes(notesRes.value);
+      if (usersRes.status === 'fulfilled') setUsers(usersRes.value);
+      if (meetingsRes.status === 'fulfilled') setMeetings(meetingsRes.value);
+      if (groupsRes.status === 'fulfilled') setGroups(groupsRes.value);
     }
     load().catch(() => {
       // if the API is down, just render the empty UI
