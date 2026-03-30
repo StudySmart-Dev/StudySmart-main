@@ -2,6 +2,8 @@
 
 This roadmap outlines the development phases for the capstone project over a 12-week duration.
 
+**Repo note:** The current codebase implements most Phase 2–4 *engineering* items (JSON Server, note hub, auth, study rooms, Pomodoro, focus/low-bandwidth modes, basic responsive CSS). Phase 1 *Tailwind* setup and Phase 5 *process* items (Figma, UAT, deployment checklist) are separate from the running app. Use `README.md` as the source of truth for shipped features.
+
 ### 🏗️ Phase 1: Foundation & Design (Weeks 1-2)
 * [ ] Define JSON data structures for `users`, `notes`, and `groups`.
 * [ ] Create high-fidelity wireframes in Figma.

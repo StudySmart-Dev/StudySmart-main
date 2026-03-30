@@ -19,7 +19,7 @@ StudySmart combines a **collaborative study dashboard** with a **crowdsourced no
   - Give example
   - Custom explain prompt
 - Note preview, download, upvote/downvote
-- Study room with synced chat + whiteboard + Pomodoro
+- Study room with chat (polling sync), shared whiteboard (JSON Server), and Pomodoro (per-browser state per room)
 - Focus Mode and Low-Bandwidth Mode
 - XP, rank tiers, badges (including **Strict monitor**), leaderboard
 
@@ -61,14 +61,14 @@ StudySmart combines a **collaborative study dashboard** with a **crowdsourced no
   - Upvote/Downvote with **XP + achievements**
 - Study Suite
   - Study group discovery (frontend-based scoring with personalization signals)
-  - Live study rooms: synced **chat**, shared **whiteboard**, and **Pomodoro**
+  - Live study rooms: **chat** (shared via API polling), **whiteboard**, and **Pomodoro** (saved locally per browser)
 - Smart Tools & Accessibility
   - **Focus Mode** (minimizes chat during active study)
   - **Low-Bandwidth Mode** (text-optimized views)
   - AI MVP inside note preview: **summary + practice quiz**
 - Achievements & Ranking
   - Education-themed rank tiers (12 tiers from novice to legendary)
-  - **Strict monitor** badge at 10 downvotes
+  - **Strict monitor** badge after a user casts **10 downvotes** on notes (tracked on their profile)
   - Leaderboard page (`/dashboard/leaderboard`) ranked by tier/XP
 
 ## Tech Stack
@@ -109,7 +109,7 @@ Data is in `db.json` and is exposed by JSON Server at `http://localhost:3001`:
 
 # StudySmart
 
-**StudySmart** is an integrated academic platform designed to bridge the gap between solitary leStudySmartarning and collaborative success. By merging a sophisticated **Study Group Management System** with a **Crowdsourced Note-Exchange Hub**, the platform creates a self-sustaining knowledge ecosystem for students.
+**StudySmart** is an integrated academic platform designed to bridge the gap between solitary learning and collaborative success. By merging a sophisticated **Study Group Management System** with a **Crowdsourced Note-Exchange Hub**, the platform creates a self-sustaining knowledge ecosystem for students.
 
 ## Core Features
 
@@ -121,7 +121,7 @@ Data is in `db.json` and is exposed by JSON Server at `http://localhost:3001`:
 
 ### 2. Collaborative Study Suite
 * **Study Matcher:** Find partners based on learning style (Visual, Verbal, etc.) and availability.
-* **Live Study Rooms:** Integrated chat, shared whiteboard, and a synced Pomodoro timer.
+* **Live Study Rooms:** Integrated chat, shared whiteboard, and a Pomodoro timer (per device; not synchronized across participants).
 * **Micro-Sessions:** Quick 15-minute "Drop-in" rooms for rapid doubt clearing.
 
 ### 3. Smart Accessibility
@@ -130,7 +130,7 @@ Data is in `db.json` and is exposed by JSON Server at `http://localhost:3001`:
 
 ## Tech Stack
 * **Frontend:** React.js, HTML5, CSS3, JavaScript (ES6+)
-* **Styling:** Tailwind CSS / Custom CSS
+* **Styling:** Custom CSS (Tailwind is not configured in this repo; see `ROADMAP.md` Phase 1)
 * **State Management:** React Hooks (useState, useEffect, useContext)
 * **Backend Simulation:** Node.js with JSON Server
 * **Data Handling:** Mock API for rapid prototyping and testing

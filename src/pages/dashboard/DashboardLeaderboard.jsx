@@ -15,6 +15,7 @@ export default function DashboardLeaderboard() {
   const [scope, setScope] = useState('global'); // global | course | school | learningStyle
   const [courseFilter, setCourseFilter] = useState('');
   const [schoolFilter, setSchoolFilter] = useState('');
+  const [learningStyleFilter, setLearningStyleFilter] = useState('');
 
   useEffect(() => {
     let alive = true;
@@ -66,6 +67,11 @@ export default function DashboardLeaderboard() {
     return [...s];
   }, [institutionByUser]);
 
+  const learningStyleOptions = useMemo(() => {
+    const s = new Set(users.map((u) => u.learningStyle).filter(Boolean));
+    return [...s];
+  }, [users]);
+
   const leaderboard = useMemo(() => {
     const rows = users
       .map((u) => {
@@ -76,7 +82,9 @@ export default function DashboardLeaderboard() {
       .filter((row) => {
         if (scope === 'course') return !courseFilter || row.u.course === courseFilter;
         if (scope === 'school') return !schoolFilter || row.institution === schoolFilter;
-        if (scope === 'learningStyle') return true;
+        if (scope === 'learningStyle') {
+          return !learningStyleFilter || row.u.learningStyle === learningStyleFilter;
+        }
         return true;
       })
       .sort((a, b) => {
@@ -85,7 +93,7 @@ export default function DashboardLeaderboard() {
         return Number(b.u.xp || 0) - Number(a.u.xp || 0);
       });
     return rows;
-  }, [users, scope, courseFilter, schoolFilter, institutionByUser]);
+  }, [users, scope, courseFilter, schoolFilter, learningStyleFilter, institutionByUser]);
 
   const top = leaderboard.slice(0, 12);
 
@@ -96,7 +104,8 @@ export default function DashboardLeaderboard() {
           <div>
             <h3 className="ds-cardTitle">Scholar Credits Leaderboard</h3>
             <p className="ds-cardSub ds-cardSubtle">
-              Ranked by XP tier. Achievements like <strong>{BADGES.STRICT_MONITOR}</strong> boost visibility.
+              Ranked by XP tier, then total XP. Badges such as <strong>{BADGES.STRICT_MONITOR}</strong> appear on cards;
+              study group matching also weighs badges in its score.
             </p>
           </div>
         </div>
@@ -134,6 +143,24 @@ export default function DashboardLeaderboard() {
                 {schoolOptions.map((s) => (
                   <option key={s} value={s}>
                     {s}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : null}
+
+          {scope === 'learningStyle' ? (
+            <div className="ds-field">
+              <label>Learning style</label>
+              <select
+                className="ds-input"
+                value={learningStyleFilter}
+                onChange={(e) => setLearningStyleFilter(e.target.value)}
+              >
+                <option value="">All</option>
+                {learningStyleOptions.map((ls) => (
+                  <option key={ls} value={ls}>
+                    {ls}
                   </option>
                 ))}
               </select>

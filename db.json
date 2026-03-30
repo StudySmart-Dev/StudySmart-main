@@ -9,12 +9,12 @@
       "level": "ug",
       "learningStyle": "Visual",
       "availability": "Evenings",
-      "xp": 8,
+      "xp": 32,
       "rankTier": 1,
       "upvoteCount": 0,
       "downvoteCount": 0,
       "notesCreatedCount": 0,
-      "joinedRoomsCount": 1,
+      "joinedRoomsCount": 4,
       "chatMessagesCount": 0,
       "boardStrokesCount": 0,
       "badges": [
@@ -95,7 +95,8 @@
         "Afternoons"
       ],
       "members": [
-        2
+        2,
+        1
       ]
     },
     {
@@ -221,6 +222,17 @@
       "participants": [
         1
       ]
+    },
+    {
+      "type": "scheduled",
+      "title": "Study session: EE201 • Circuits",
+      "groupId": 102,
+      "scheduledAt": "2026-03-20T22:41:42.480Z",
+      "durationMinutes": 60,
+      "participants": [
+        1
+      ],
+      "id": 304
     }
   ],
   "meetingMessages": [],
