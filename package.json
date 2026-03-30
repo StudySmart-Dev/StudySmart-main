@@ -3,6 +3,10 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/StudySmart-Dev/StudySmart-main.git"
+  },
   "scripts": {
     "dev": "vite --host",
     "dev:api": "json-server --watch db.json --port 3001 --cors",
